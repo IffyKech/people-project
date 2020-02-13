@@ -102,3 +102,73 @@ if __name__ == "__main__":
     #     self.MainApp.destroy()  # destroys the Tk() application of the main window
     #     LoginAppWindow = tk.Tk()
     #     LoginWindow(LoginAppWindow)  # Login window class inherits Tk application
+
+    class NewClientWindow:
+        def __init__(self, Parent):  # Parent parameter will be passed as the window for the class
+            self.Parent = Parent  # Create an instance attribute of the parameter
+            self.Parent.title("New Contact")
+            self.Parent.geometry("500x500")
+
+            self.Frame = tk.Frame(self.Parent, bg="white")
+            self.Frame.pack()
+
+            self.NewClientText = tk.Label(self.Frame, text="Fill in details", font=("Arial 8 bold"), bg="white")
+            self.NewClientText.grid(row=0, column=0)
+
+            self.FirstnameText = tk.Label(self.Frame, text="Firstname: ", bg="white")
+            self.FirstnameText.grid(pady=12, row=1, column=0)
+
+            self.LastnameText = tk.Label(self.Frame, text="Lastname: ", bg="white")
+            self.LastnameText.grid(pady=12, row=2, column=0)
+
+            self.LocationText = tk.Label(self.Frame, text="Location: ", bg="white")
+            self.LocationText.grid(pady=12, row=3, column = 0)
+
+            self.NumberText = tk.Label(self.Frame, text="Phone: ", bg="white")
+            self.NumberText.grid(pady=12, row=4, column=0)
+
+            self.EmailText = tk.Label(self.Frame, text="Email: ", bg="white")
+            self.EmailText.grid(pady=12, row=5, column=0)
+
+            self.FieldOfWorkText = tk.Label(self.Frame, text="Field of Work: ", bg="white")
+            self.FieldOfWorkText.grid(pady=12, row=6, column=0)
+
+            self.SourceText = tk.Label(self.Frame, text="Source: ", bg="white")
+            self.SourceText.pack(pady=12, row=7, column=0)
+
+            self.NewOccupationText = tk.Label(self.Frame, text="New Occupation: ", bg="white")
+            self.NewOccupationText.grid(pady=12, row=8, column=0)
+
+            self.ExistingOccupationText = tk.Label(self.Frame, text="Existing Occupations: ")
+            self.ExistingOccupationText.grid(pady=12, row=9, column=0)
+
+            self.FirstnameEntry = tk.Entry(self.Frame)
+            self.FirstnameEntry.grid(row=1, column=1)
+
+            self.LastnameEntry = tk.Entry(self.Frame)
+            self.LastnameEntry.grid(row=2, column=1)
+
+            self.LocationEntry = tk.Entry(self.Frame)
+            self.LocationEntry.grid(row=3, column=1)
+
+            self.NumberEntry = tk.Entry(self.Frame)
+            self.NumberEntry.grid(row=4, column=1)
+
+            self.EmailEntry = tk.Entry(self.Frame)
+            self.EmailEntry.grid(row=5, column = 1)
+
+            self.FieldOfWorkEntry = tk.Entry(self.Frame)
+            self.FieldOfWorkEntry.grid(row=6, column=1)
+
+            self.SourceEntry = tk.Entry(self.Frame)
+            self.SourceEntry.grid(row=7, column=1)
+
+            self.OccupationEntry = tk.Entry(self.Frame)
+            self.OccupationEntry.grid(row=8, column=1)
+
+            self.ExistingOccupationDropDown = tk.ttk.Combobox(self.Frame, state="readonly", justify=tk.CENTER)
+            self.ExistingOccupationDropDown.grid(row=9, column=1)
+            self.ExistingOccupationDropDown.configure(values=("Placeholder", "Placeholder", "Placeholder"))
+
+            self.SaveButton = tk.Button(self.Frame, text="Save/Exit")
+            self.SaveButton.grid(row=10, columnspan=2)
