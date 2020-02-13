@@ -8,9 +8,10 @@ class MainWindow:
     def __init__(self, MainApp):  # MainApp parameter will be passed as the window for the class
         self.MainApp = MainApp  # Create an instance attribute of the parameter
         self.MainApp.title("Client Timetable")
+        #self.MainApp.geometry("800x500")
 
         self.TopFrame = tk.Frame(self.MainApp, bg = "white")
-        self.TopFrame.pack()
+        self.TopFrame.pack(side=tk.TOP)
 
         self.BottomFrame = tk.Frame(self.MainApp, bg="white")
         self.BottomFrame.pack(side=tk.BOTTOM)
@@ -18,32 +19,41 @@ class MainWindow:
         self.ClientText = tk.Label(self.TopFrame, text="Clients", font=("Arial", 14), bg="White")
         self.ClientText.pack()
 
-        self.RightClientScrollbar = tk.Scrollbar(self.TopFrame)
-        self.RightClientScrollbar.pack(side=tk.RIGHT,
+        self.yscrollbar = tk.Scrollbar(self.TopFrame)
+        self.yscrollbar.pack(side=tk.RIGHT,
                                   fill=tk.Y)  # Scrollbar attached to right side of listbox, scrolls down the listbox (vertical)
 
-        self.BottomClientScrollbar = tk.Scrollbar(self.TopFrame)
-        self.BottomClientScrollbar.pack(side=tk.BOTTOM, fill=tk.X)
+        self.xscrollbar = tk.Scrollbar(self.TopFrame, orient=tk.HORIZONTAL)
+        self.xscrollbar.pack(side=tk.BOTTOM, fill=tk.X)
 
         self.ClientListbox = tk.Listbox(self.TopFrame, width=45, height=5,
-                                        yscrollcommand=self.RightClientScrollbar.set, xscrollcommand=self.BottomClientScrollbar.set)  # sets the scrollbars made above to this listbox
+                                        yscrollcommand=self.yscrollbar.set, xscrollcommand=self.xscrollbar.set)  # sets the scrollbars made above to this listbox
         self.ClientListbox.pack()
 
-        self.RightClientScrollbar.config(
+        self.yscrollbar.config(
             command=self.ClientListbox.yview)  # yview will scroll down the listbox (vertical) when the scroll slider or button is manipulated
-        self.BottomClientScrollbar.config(command=self.ClientListbox.xview)
+        self.xscrollbar.config(command=self.ClientListbox.xview)
 
         self.NewRecordButton = tk.Button(self.BottomFrame, text="New Contact", width=12)
-        self.NewRecordButton.grid(row=0, padx=50)
+        self.NewRecordButton.grid(row=0, padx=50, pady=8)
 
         self.ViewContactsButton = tk.Button(self.BottomFrame, text="View Contacts", width=12)
-        self.ViewContactsButton.grid(column=2, row=0, padx=50)
+        self.ViewContactsButton.grid(column=2, row=0, padx=50, pady=8)
 
         self.DeleteRecordButton = tk.Button(self.BottomFrame, text="Delete Contact", width=12)
-        self.DeleteRecordButton.grid(row=1, padx=50)
+        self.DeleteRecordButton.grid(row=1, padx=50, pady=8)
 
         self.LogoutButton = tk.Button(self.BottomFrame, text="Logout", width=12)
-        self.LogoutButton.grid(column=1, row=1, padx=50)
+        self.LogoutButton.grid(column=2, row=1, pady=8)
+
+def main():
+    main_window_app = tk.Tk()
+    MainWindow(main_window_app)
+    main_window_app.mainloop()
+
+if __name__ == "__main__":
+    main()
+
 
 
 
