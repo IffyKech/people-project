@@ -162,7 +162,25 @@ class NewRecordWindow:
         self.SaveButton = tk.Button(self.Frame, text="Save/Exit")
         self.SaveButton.grid(row=10, columnspan=2)
 
+def createdatabase():
+    database = sql.connect("contacts.sqlite3")
+
+    databasecursor = database.cursor()
+    databasecursor.execute("""CREATE TABLE Contacts(Firstname TEXT, Lastname TEXT, Location TEXT, Number TEXT,
+     Email TEXT, FieldOfWork TEXT, Source TEXT, Occupation TEXT)""")
+
+    database.commit()
+    database.close()
+
+def doesfileexist(filetofind):
+    for file in os.listdir():
+        if filetofind == file:
+            return True
+    return False
+
 def main():
+    if not doesfileexist("contacts.sqlite3"):
+        createdatabase()
     main_window_app = tk.Tk()
     MainWindow(main_window_app)
     main_window_app.mainloop()

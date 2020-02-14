@@ -1,4 +1,4 @@
 *.drawio
-*.docx
+*.sqlite3
 practise.py
 .idea/
