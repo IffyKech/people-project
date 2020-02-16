@@ -1,8 +1,4 @@
 *.drawio
-<<<<<<< HEAD
-
-=======
 *.sqlite3
->>>>>>> main/new-record
 practise.py
 .idea/
