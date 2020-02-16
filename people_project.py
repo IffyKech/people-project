@@ -159,8 +159,28 @@ class NewRecordWindow:
         self.ExistingOccupationDropDown.grid(row=9, column=1)
         self.ExistingOccupationDropDown.configure(values=("Placeholder", "Placeholder", "Placeholder"))
 
-        self.SaveButton = tk.Button(self.Frame, text="Save/Exit")
+        self.SaveButton = tk.Button(self.Frame, text="Save/Exit", command = self.addClientToDatabase)
         self.SaveButton.grid(row=10, columnspan=2)
+
+    def addClientToDatabase(self):
+        self.occupation = self.ExistingOccupationDropDown.get()
+        if len(self.OccupationEntry.get()) > 1:  # if they created a new occupation, take that one instead
+            self.occupation = self.OccupationEntry.get()
+
+        if not doesfileexist("contacts.sqlite3"):  # create the database file just in case it doesn't exist
+            createdatabase()
+        database = sql.connect("contacts.sqlite3")
+        databasecursor = database.cursor()
+        databasecursor.execute("""INSERT INTO Contacts(Firstname, Lastname, Location, Number, Email, FieldOfWork, Source, Occupation)
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?)""", (self.FirstnameEntry.get(), self.LastnameEntry.get(), self.LocationEntry.get(),
+                                            self.NumberEntry.get(), self.EmailEntry.get(), self.FieldOfWorkEntry.get(),
+                                            self.SourceEntry.get(), self.occupation))
+        database.commit()
+        database.close()
+
+        Window = tk.Tk()
+        Window.withdraw()
+        messagebox.showinfo(title="Record Created", message="Record added to database")
 
 def createdatabase():
     database = sql.connect("contacts.sqlite3")
