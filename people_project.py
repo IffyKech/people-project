@@ -40,7 +40,7 @@ class MainWindow:
         self.ViewContactsButton = tk.Button(self.BottomFrame, text="View Contacts", width=12)
         self.ViewContactsButton.grid(column=2, row=0, padx=50, pady=8)
 
-        self.DeleteRecordButton = tk.Button(self.BottomFrame, text="Delete Contact", width=12)
+        self.DeleteRecordButton = tk.Button(self.BottomFrame, text="Delete Contact", width=12, command=self.load_delete_record)
         self.DeleteRecordButton.grid(row=1, padx=50, pady=8)
 
         self.LogoutButton = tk.Button(self.BottomFrame, text="Logout", width=12)
@@ -90,6 +90,10 @@ class MainWindow:
     def load_new_record(self):
         self.newrecordapp = tk.Toplevel(self.MainApp)
         self.newrecordwindow = NewRecordWindow(self.newrecordapp)
+
+    def load_delete_record(self):
+        self.deleterecordapp = tk.Toplevel(self.MainApp)
+        self.deleterecordwindow = DeleteRecordWindow(self.deleterecordapp)
 
 
 class NewRecordWindow:
@@ -181,6 +185,25 @@ class NewRecordWindow:
         Window = tk.Tk()
         Window.withdraw()
         messagebox.showinfo(title="Record Created", message="Record added to database")
+
+class DeleteRecordWindow:
+    def __init__(self, Parent):
+        self.parent = Parent
+        self.parent.geometry("240x69")
+        self.parent.title("Delete Record")
+
+        self.Frame = tk.Frame(self.parent, bg="white")
+        self.Frame.pack()
+
+        self.DeleteRecordText = tk.Label(self.Frame, text="Select which record you would like to delete", bg="white")
+        self.DeleteRecordText.pack()
+
+        self.RecordCombobox = ttk.Combobox(self.Frame, state="readonly", justify=tk.CENTER)
+        self.RecordCombobox.configure(values=())
+        self.RecordCombobox.pack()
+
+        self.DeleteButton = tk.Button(self.Frame, text="Delete")
+        self.DeleteButton.pack()
 
 def createdatabase():
     database = sql.connect("contacts.sqlite3")
