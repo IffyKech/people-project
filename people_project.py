@@ -199,11 +199,19 @@ class DeleteRecordWindow:
         self.DeleteRecordText.pack()
 
         self.RecordCombobox = ttk.Combobox(self.Frame, state="readonly", justify=tk.CENTER)
-        self.RecordCombobox.configure(values=())
+        self.RecordCombobox.configure(values=(self.getrecords()))
         self.RecordCombobox.pack()
 
         self.DeleteButton = tk.Button(self.Frame, text="Delete")
         self.DeleteButton.pack()
+
+    def getrecords(self):
+        database = sql.connect("contacts.sqlite3")
+        databasecursor = database.cursor()
+        records = [row[0] for row in databasecursor.execute('SELECT Firstname FROM Contacts')]
+        database.close()
+
+        return records
 
 def createdatabase():
     database = sql.connect("contacts.sqlite3")
