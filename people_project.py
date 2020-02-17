@@ -182,6 +182,7 @@ class NewRecordWindow:
         database.commit()
         database.close()
 
+        self.Parent.withdraw()
         Window = tk.Tk()
         Window.withdraw()
         messagebox.showinfo(title="Record Created", message="Record added to database")
@@ -214,20 +215,20 @@ class DeleteRecordWindow:
         return records
 
     def deleterecord(self):
+        self.parent.withdraw()
         recordtodelete = self.RecordCombobox.get()
         window = tk.Tk()
         window.withdraw()
-        messagebox.askyesno(title="Confirm Deletion", message="Are you sure you want to delete %s?" % (recordtodelete))
-        if messagebox.askyesno():
+        if messagebox.askyesno(title="Confirm Deletion", message="Are you sure you want to delete %s?" % (recordtodelete)):
             database = sql.connect("contacts.sqlite3")
             databasecursor = database.cursor()
-            databasecursor.execute("""DELETE FROM Contacts WHERE Firstname = ?""", (recordtodelete))
+            databasecursor.execute("""DELETE FROM Contacts WHERE Firstname = ?""", (recordtodelete,))
             database.commit()
             database.close()
 
             window = tk.Tk()
             window.withdraw()
-            messagebox.showinfo(title="Deleted Record", message="%s deleted from database")
+            messagebox.showinfo(title="Deleted Record", message="%s deleted from database" % (recordtodelete))
 
 
 def createdatabase():
