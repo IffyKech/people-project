@@ -95,6 +95,8 @@ class MainWindow:
         self.deleterecordapp = tk.Toplevel(self.MainApp)
         self.deleterecordwindow = DeleteRecordWindow(self.deleterecordapp)
 
+    def close_main_window(self):
+        self.MainApp.destroy()
 
 class NewRecordWindow:
     def __init__(self, Parent):  # Parent parameter will be passed as the window for the class
@@ -182,10 +184,8 @@ class NewRecordWindow:
         database.commit()
         database.close()
 
-        self.Parent.withdraw()
-        Window = tk.Tk()
-        Window.withdraw()
         messagebox.showinfo(title="Record Created", message="Record added to database")
+        self.Parent.withdraw()
 
 class DeleteRecordWindow:
     def __init__(self, Parent):
@@ -215,10 +215,7 @@ class DeleteRecordWindow:
         return records
 
     def deleterecord(self):
-        self.parent.withdraw()
         recordtodelete = self.RecordCombobox.get()
-        window = tk.Tk()
-        window.withdraw()
         if messagebox.askyesno(title="Confirm Deletion", message="Are you sure you want to delete %s?" % (recordtodelete)):
             database = sql.connect("contacts.sqlite3")
             databasecursor = database.cursor()
@@ -226,9 +223,8 @@ class DeleteRecordWindow:
             database.commit()
             database.close()
 
-            window = tk.Tk()
-            window.withdraw()
             messagebox.showinfo(title="Deleted Record", message="%s deleted from database" % (recordtodelete))
+            self.parent.destroy()
 
 
 def createdatabase():
