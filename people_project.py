@@ -43,7 +43,7 @@ class MainWindow:
         self.DeleteRecordButton = tk.Button(self.BottomFrame, text="Delete Contact", width=12, command=self.load_delete_record)
         self.DeleteRecordButton.grid(row=1, padx=50, pady=8)
 
-        self.LogoutButton = tk.Button(self.BottomFrame, text="Logout", width=12)
+        self.LogoutButton = tk.Button(self.BottomFrame, text="Logout", width=12, command=self.close_main_window)
         self.LogoutButton.grid(column=2, row=1, pady=8)
 
         # if DoesFileExist("Current Database.txt"):
