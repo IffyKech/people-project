@@ -202,7 +202,7 @@ class DeleteRecordWindow:
         self.RecordCombobox.configure(values=(self.getrecords()))
         self.RecordCombobox.pack()
 
-        self.DeleteButton = tk.Button(self.Frame, text="Delete")
+        self.DeleteButton = tk.Button(self.Frame, text="Delete", command=self.deleterecord)
         self.DeleteButton.pack()
 
     def getrecords(self):
@@ -212,6 +212,23 @@ class DeleteRecordWindow:
         database.close()
 
         return records
+
+    def deleterecord(self):
+        recordtodelete = self.RecordCombobox.get()
+        window = tk.Tk()
+        window.withdraw()
+        messagebox.askyesno(title="Confirm Deletion", message="Are you sure you want to delete %s?" % (recordtodelete))
+        if messagebox.askyesno():
+            database = sql.connect("contacts.sqlite3")
+            databasecursor = database.cursor()
+            databasecursor.execute("""DELETE FROM Contacts WHERE Firstname = ?""", (recordtodelete))
+            database.commit()
+            database.close()
+
+            window = tk.Tk()
+            window.withdraw()
+            messagebox.showinfo(title="Deleted Record", message="%s deleted from database")
+
 
 def createdatabase():
     database = sql.connect("contacts.sqlite3")
