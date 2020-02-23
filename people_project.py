@@ -46,46 +46,23 @@ class MainWindow:
         self.LogoutButton = tk.Button(self.BottomFrame, text="Logout", width=12, command=self.close_main_window)
         self.LogoutButton.grid(column=2, row=1, pady=8)
 
-        # if DoesFileExist("Current Database.txt"):
-        # self.UpdateListbox()  # calls the class method which updates the listbox in the main window
+        if doesfileexist("contacts.sqlite3"):
+            self.updatelistbox()
 
-        # def UpdateListbox(self):  # queries fields from current database and adds them to a listbox
-        #     DatabaseFile = GetCurrentDatabase()
-        #
-        #     QueryStatement = """SELECT Firstname, Lastname, RepairIssue, SessionDate, SessionTime FROM Clients """  # SQL statement to retrieve these fields from all records which will be added to listbox
-        #     Clients = []
-        #     Database = sql.connect(DatabaseFile)
-        #
-        #     Cursor = Database.cursor()  # cursor allows sql statements to be executed when a connection is made
-        #     Cursor.execute(QueryStatement)
-        #
-        #     for row in Cursor:  # each record in the query
-        #         Clients.append(row)  # append each record to an array
-        #
-        #     Database.close()
-        #
-        #     for Client in Clients:
-        #         self.ClientListbox.insert(tk.END, Client)  # inserts each element from the list of clients to the listbox in main window
-        # def LoadDeleteClientWindow(self):
-        #     self.DeleteClientApp = tk.Toplevel(self.MainApp)  # same principle as ‘LoadNewClientWindow’
-        #     self.EditWindow = DeleteClientWindow(self.DeleteClientApp)
-        #
-        # def LoadNewDatabaseWindow(self):
-        #     self.DatabaseApp = tk.Toplevel(self.MainApp)
-        #     self.NewDBWindow = NewDatabaseWindow(self.DatabaseApp)
-        #
-        # def LoadQueryDatabaseWindow(self):
-        #     self.QueryApp = tk.Toplevel(self.MainApp)
-        #     self.QueryWindow = QueryDatabaseWindow(self.QueryApp)
-        #
-        # def LoadSendInvoiceWindow(self):
-        #     self.InvoiceApp = tk.Toplevel(self.MainApp)
-        #     self.InvoiceWindow = InvoiceEmail(self.InvoiceApp)
-        #
-        # def CloseMainWindow(self):  # Closes main window and launches the login window
-        #     self.MainApp.destroy()  # destroys the Tk() application of the main window
-        #     LoginAppWindow = tk.Tk()
-        #     LoginWindow(LoginAppWindow)  # Login window class inherits Tk application
+    def updatelistbox(self):
+        database = sql.connect("contacts.sqlite3")
+        databasecursor = database.cursor()
+
+        querystatement = """SELECT Firstname, Lastname, Number, Email, Location, Occupation FROM Contacts"""
+
+        databasecursor.execute(querystatement)
+
+        records = [row for row in databasecursor]
+
+        database.close()
+
+        for record in records:
+            self.ClientListbox.insert(tk.END, record)
 
     def load_new_record(self):
         self.newrecordapp = tk.Toplevel(self.MainApp)
