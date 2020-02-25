@@ -37,7 +37,7 @@ class MainWindow:
         self.NewRecordButton = tk.Button(self.BottomFrame, text="New Contact", width=12, command=self.load_new_record)
         self.NewRecordButton.grid(row=0, padx=50, pady=8)
 
-        self.ViewContactsButton = tk.Button(self.BottomFrame, text="View Contacts", width=12)
+        self.ViewContactsButton = tk.Button(self.BottomFrame, text="View Contacts", width=12, command=self.load_view_record)
         self.ViewContactsButton.grid(column=2, row=0, padx=50, pady=8)
 
         self.DeleteRecordButton = tk.Button(self.BottomFrame, text="Delete Contact", width=12, command=self.load_delete_record)
@@ -71,6 +71,10 @@ class MainWindow:
     def load_delete_record(self):
         self.deleterecordapp = tk.Toplevel(self.MainApp)
         self.deleterecordwindow = DeleteRecordWindow(self.deleterecordapp)
+
+    def load_view_record(self):
+        self.viewrecordapp = tk.Toplevel(self.MainApp)
+        self.viewrecordwindow = ViewRecordWindow(self.viewrecordapp)
 
     def close_main_window(self):
         self.MainApp.destroy()
@@ -203,6 +207,46 @@ class DeleteRecordWindow:
             messagebox.showinfo(title="Deleted Record", message="%s deleted from database" % (recordtodelete))
             self.parent.destroy()
 
+class ViewRecordWindow:
+    def __init__(self, Parent):
+        self.parent = Parent
+        self.parent.title("Records")
+
+        self.Frame = tk.Frame(self.parent)
+        self.Frame.pack(fill=tk.BOTH, expand=tk.Y)
+
+        self.sortingframe = tk.Frame(self.Frame)
+        self.sortingframe.pack(fill=tk.X)
+
+        self.create_tree_window()
+
+    def create_tree_window(self):
+        self.treeframe = tk.Frame(self.Frame)
+        self.treeframe.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=tk.Y)
+
+        # creating the columns(fields) for records
+        self.tree = ttk.Treeview(self.treeframe)
+        self.tree["columns"] = ("Source", "Firstname", "Lastname", "FieldOfWork", "Occupation", "Location", "Telephone", "Email")
+        self.tree.column("sourceCol", anchor=tk.CENTER, stretch=True)  # first param is the column id
+        self.tree.column("fnameCol", anchor=tk.CENTER, stretch=True)
+        self.tree.column("lnameCol", anchor=tk.CENTER, stretch=True)
+        self.tree.column("workCol", anchor=tk.CENTER, stretch=True)
+        self.tree.column("occupationCol", anchor=tk.CENTER, stretch=True)
+        self.tree.column("locationCol", anchor=tk.CENTER, stretch=True)
+        self.tree.column("numberCol", anchor=tk.CENTER, stretch=True)
+        self.tree.column("emailCol", anchor=tk.CENTER, stretch=True)
+
+        # creating the headings(titles) of the columns(/fields)
+        self.tree.heading("sourceCol", text="Source", anchor=tk.CENTER)
+        self.tree.heading("fnameCol", text="Firstname", anchor=tk.CENTER)
+        self.tree.heading("lnameCol", text="Lastname", anchor=tk.CENTER)
+        self.tree.heading("workCol", text="Field Of Work", anchor=tk.CENTER)
+        self.tree.heading("occupationCol", text="Occupation", anchor=tk.CENTER)
+        self.tree.heading("locationCol", text="Location", anchor=tk.CENTER)
+        self.tree.heading("numberCol", text="Telephone", anchor=tk.CENTER)
+        self.tree.heading("emailCol", text="Email", anchor=tk.CENTER)
+
+        self.tree.pack(self.treeframe, fill=tk.BOTH, expand=tk.Y)
 
 def createdatabase():
     database = sql.connect("contacts.sqlite3")
