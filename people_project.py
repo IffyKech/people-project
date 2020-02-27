@@ -228,8 +228,13 @@ class ViewRecordWindow:
         self.sortbutton = tk.Button(self.sortingframe, text="Sort", width=7, height=0, font=('Arial', 8))
         self.sortbutton.grid(row=0, column=3, padx=10)
 
+        self.records = self.get_records_occupation()
+        self.occupations = []
+        for row in self.records:
+            if row[4] not in self.occupations:
+                self.occupations.append(row[4])
         self.create_tree_window()
-        self.get_records_occupation()
+
 
     def create_tree_window(self):
         self.treeframe = tk.Frame(self.Frame)
@@ -239,14 +244,14 @@ class ViewRecordWindow:
         self.tree = ttk.Treeview(self.treeframe)
         self.tree["columns"] = ("Source", "Firstname", "Lastname", "FieldOfWork", "Occupation", "Location", "Telephone", "Email")
         self.tree["show"] = "headings"  # hides the extra first column that was appearing
-        self.tree.column("Source", anchor=tk.CENTER, width=100, stretch=True)  # first param is the column to edit
-        self.tree.column("Firstname", anchor=tk.CENTER, width=100, stretch=True)
-        self.tree.column("Lastname", anchor=tk.CENTER, width=100, stretch=True)
-        self.tree.column("FieldOfWork", anchor=tk.CENTER, width=100, stretch=True)
-        self.tree.column("Occupation", anchor=tk.CENTER, width=100, stretch=True)
-        self.tree.column("Location", anchor=tk.CENTER, width=100, stretch=True)
-        self.tree.column("Telephone", anchor=tk.CENTER, width=100, stretch=True)
-        self.tree.column("Email", anchor=tk.CENTER, width=100, stretch=True)
+        self.tree.column("Source", anchor=tk.CENTER, width=110)  # first param is the column to edit
+        self.tree.column("Firstname", anchor=tk.CENTER, width=110)
+        self.tree.column("Lastname", anchor=tk.CENTER, width=110)
+        self.tree.column("FieldOfWork", anchor=tk.CENTER, width=120)
+        self.tree.column("Occupation", anchor=tk.CENTER, width=120)
+        self.tree.column("Location", anchor=tk.CENTER, width=110)
+        self.tree.column("Telephone", anchor=tk.CENTER, width=110)
+        self.tree.column("Email", anchor=tk.CENTER, width=150)
 
         # creating the headings(titles) of the columns(/fields)
         self.tree.heading("Source", text="Source", anchor=tk.CENTER)
@@ -257,6 +262,15 @@ class ViewRecordWindow:
         self.tree.heading("Location", text="Location", anchor=tk.CENTER)
         self.tree.heading("Telephone", text="Telephone", anchor=tk.CENTER)
         self.tree.heading("Email", text="Email", anchor=tk.CENTER)
+
+        # inserting data in
+        for row in self.records:
+            self.tree.insert('', 'end', values=row)
+
+        # scrollbar adding
+        self.yscrollbar = tk.Scrollbar(self.treeframe, orient=tk.VERTICAL, command=self.tree.yview)
+        self.tree['yscroll'] = self.yscrollbar.set
+        self.yscrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
         self.tree.pack()
 
