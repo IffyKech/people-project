@@ -215,12 +215,21 @@ class ViewRecordWindow:
         self.Frame = tk.Frame(self.parent)
         self.Frame.pack(fill=tk.BOTH, expand=tk.Y)
 
-        self.sortingframe = tk.Frame(self.Frame)
+        self.sortingframe = tk.Frame(self.Frame, bg="white")
         self.sortingframe.pack(side=tk.TOP, fill=tk.X)
 
-        tk.Label(self.sortingframe, text="Test", bg="red").pack(fill=tk.X)
+        self.sortbytext = tk.Label(self.sortingframe, text="Sort By: ", bg="white")
+        self.sortbytext.grid(row=0, column = 1)
+
+        self.sortingcombobox = ttk.Combobox(self.sortingframe, state="readonly", justify=tk.CENTER)
+        self.sortingcombobox.configure(values=("Placeholder"))
+        self.sortingcombobox.grid(row=0, column=2)
+
+        self.sortbutton = tk.Button(self.sortingframe, text="Sort", width=7, height=0, font=('Arial', 8))
+        self.sortbutton.grid(row=0, column=3, padx=10)
 
         self.create_tree_window()
+        self.get_records_occupation()
 
     def create_tree_window(self):
         self.treeframe = tk.Frame(self.Frame)
@@ -230,14 +239,14 @@ class ViewRecordWindow:
         self.tree = ttk.Treeview(self.treeframe)
         self.tree["columns"] = ("Source", "Firstname", "Lastname", "FieldOfWork", "Occupation", "Location", "Telephone", "Email")
         self.tree["show"] = "headings"  # hides the extra first column that was appearing
-        self.tree.column("Source", anchor=tk.CENTER, stretch=True)  # first param is the column to edit
-        self.tree.column("Firstname", anchor=tk.CENTER, stretch=True)
-        self.tree.column("Lastname", anchor=tk.CENTER, stretch=True)
-        self.tree.column("FieldOfWork", anchor=tk.CENTER, stretch=True)
-        self.tree.column("Occupation", anchor=tk.CENTER, stretch=True)
-        self.tree.column("Location", anchor=tk.CENTER, stretch=True)
-        self.tree.column("Telephone", anchor=tk.CENTER, stretch=True)
-        self.tree.column("Email", anchor=tk.CENTER, stretch=True)
+        self.tree.column("Source", anchor=tk.CENTER, width=100, stretch=True)  # first param is the column to edit
+        self.tree.column("Firstname", anchor=tk.CENTER, width=100, stretch=True)
+        self.tree.column("Lastname", anchor=tk.CENTER, width=100, stretch=True)
+        self.tree.column("FieldOfWork", anchor=tk.CENTER, width=100, stretch=True)
+        self.tree.column("Occupation", anchor=tk.CENTER, width=100, stretch=True)
+        self.tree.column("Location", anchor=tk.CENTER, width=100, stretch=True)
+        self.tree.column("Telephone", anchor=tk.CENTER, width=100, stretch=True)
+        self.tree.column("Email", anchor=tk.CENTER, width=100, stretch=True)
 
         # creating the headings(titles) of the columns(/fields)
         self.tree.heading("Source", text="Source", anchor=tk.CENTER)
@@ -250,6 +259,15 @@ class ViewRecordWindow:
         self.tree.heading("Email", text="Email", anchor=tk.CENTER)
 
         self.tree.pack()
+
+    def get_records_occupation(self): # returns the list of records as a whole and also occupations
+        database = sql.connect("contacts.sqlite3")
+        databasecursor = database.cursor()
+        records = [row for row in databasecursor.execute('SELECT Source, Firstname, Lastname, FieldOfWork, Occupation,'
+                                                         'Location, Number, Email FROM Contacts')]
+        database.close()
+
+        return records
 
 def createdatabase():
     database = sql.connect("contacts.sqlite3")
