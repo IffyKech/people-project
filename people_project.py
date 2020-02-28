@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 import sqlite3 as sql
 import os
-from tkinter.font import Font
+#TODO: Do some testing, sort out possible bugs if no contacts are written
 
 class MainWindow:
     def __init__(self, MainApp):  # MainApp parameter will be passed as the window for the class
@@ -144,6 +144,7 @@ class NewRecordWindow:
 
         self.ExistingOccupationDropDown = tk.ttk.Combobox(self.Frame, state="readonly", justify=tk.CENTER)
         self.ExistingOccupationDropDown.grid(row=9, column=1)
+        # TODO: add functionality to this
         self.ExistingOccupationDropDown.configure(values=("Placeholder", "Placeholder", "Placeholder"))
 
         self.SaveButton = tk.Button(self.Frame, text="Save/Exit", command = self.addClientToDatabase)
