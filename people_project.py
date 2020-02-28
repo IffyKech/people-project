@@ -221,23 +221,22 @@ class ViewRecordWindow:
         self.sortbytext = tk.Label(self.sortingframe, text="Sort By: ", bg="white")
         self.sortbytext.grid(row=0, column = 1)
 
+        # get the occupations which will be added to the combobox
+        self.searchfilter = ""
+        self.records = []
+        self.occupations = []
+        self.get_records_occupation(self.searchfilter)
         self.sortingcombobox = ttk.Combobox(self.sortingframe, state="readonly", justify=tk.CENTER)
-        self.sortingcombobox.configure(values=("Placeholder"))
+        self.sortingcombobox.configure(values=(self.occupations))
         self.sortingcombobox.grid(row=0, column=2)
 
-        self.sortbutton = tk.Button(self.sortingframe, text="Sort", width=7, height=0, font=('Arial', 8))
+        self.sortbutton = tk.Button(self.sortingframe, text="Sort", width=7, height=0, font=('Arial', 8), command=self.filter_tree_window)
         self.sortbutton.grid(row=0, column=3, padx=10)
 
-        self.records = self.get_records_occupation()
-        self.occupations = []
-        for row in self.records:
-            if row[4] not in self.occupations:
-                self.occupations.append(row[4])
-        self.create_tree_window()
+        self.create_tree_window(self.Frame)
 
-
-    def create_tree_window(self):
-        self.treeframe = tk.Frame(self.Frame)
+    def create_tree_window(self, master):
+        self.treeframe = tk.Frame(master)
         self.treeframe.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=tk.Y)
 
         # creating the columns(fields) for records
@@ -274,14 +273,34 @@ class ViewRecordWindow:
 
         self.tree.pack()
 
-    def get_records_occupation(self): # returns the list of records as a whole and also occupations
+    def get_records_occupation(self, searchfilter): # returns the list of records as a whole and also occupations
         database = sql.connect("contacts.sqlite3")
         databasecursor = database.cursor()
-        records = [row for row in databasecursor.execute('SELECT Source, Firstname, Lastname, FieldOfWork, Occupation,'
-                                                         'Location, Number, Email FROM Contacts')]
+        if searchfilter == "":
+            records = [row for row in databasecursor.execute('SELECT Source, Firstname, Lastname, FieldOfWork, Occupation,'
+                                                             'Location, Number, Email '
+                                                             'FROM Contacts')]
+        else:
+            records = [row for row in databasecursor.execute('SELECT Source, Firstname, Lastname, FieldOfWork, Occupation,'
+                                                             'Location, Number, Email '
+                                                             'FROM Contacts '
+                                                             'WHERE Occupation = ?', (searchfilter,))]
         database.close()
 
-        return records
+        occupations = []
+        for row in records:
+            if row[4] not in occupations:
+                occupations.append(row[4])
+
+        self.records, self.occupations = records, occupations
+
+    def filter_tree_window(self):
+        self.searchfilter = self.sortingcombobox.get()
+        self.get_records_occupation(self.searchfilter)
+        filterwindow = tk.Toplevel(self.parent)
+        filterwindow.title("%ss" % (self.searchfilter))
+        self.create_tree_window(filterwindow)
+
 
 def createdatabase():
     database = sql.connect("contacts.sqlite3")
