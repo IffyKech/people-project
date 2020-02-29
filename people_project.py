@@ -215,15 +215,18 @@ class DeleteRecordWindow:
 
     def deleterecord(self):
         recordtodelete = self.RecordCombobox.get()
-        if messagebox.askyesno(title="Confirm Deletion", message="Are you sure you want to delete %s?" % (recordtodelete)):
-            database = sql.connect("contacts.sqlite3")
-            databasecursor = database.cursor()
-            databasecursor.execute("""DELETE FROM Contacts WHERE Firstname = ?""", (recordtodelete,))
-            database.commit()
-            database.close()
+        if recordtodelete == "":
+            messagebox.showinfo(title="Error", message="Please select a record to delete")
+        else:
+            if messagebox.askyesno(title="Confirm Deletion", message="Are you sure you want to delete %s?" % (recordtodelete)):
+                database = sql.connect("contacts.sqlite3")
+                databasecursor = database.cursor()
+                databasecursor.execute("""DELETE FROM Contacts WHERE Firstname = ?""", (recordtodelete,))
+                database.commit()
+                database.close()
 
-            messagebox.showinfo(title="Deleted Record", message="%s deleted from database" % (recordtodelete))
-            self.parent.destroy()
+                messagebox.showinfo(title="Deleted Record", message="%s deleted from database" % (recordtodelete))
+                self.parent.destroy()
 
 class ViewRecordWindow:
     def __init__(self, Parent):
@@ -314,10 +317,13 @@ class ViewRecordWindow:
 
     def filter_tree_window(self):
         self.searchfilter = self.sortingcombobox.get()
-        self.get_records_occupation(self.searchfilter)
-        filterwindow = tk.Toplevel(self.parent)
-        filterwindow.title("%ss" % (self.searchfilter))
-        self.create_tree_window(filterwindow)
+        if self.searchfilter == "":
+            messagebox.showinfo(title="Error", message="Please create a new record first")
+        else:
+            self.get_records_occupation(self.searchfilter)
+            filterwindow = tk.Toplevel(self.parent)
+            filterwindow.title("%ss" % (self.searchfilter))
+            self.create_tree_window(filterwindow)
 
 
 def createdatabase():
