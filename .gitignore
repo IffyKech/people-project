@@ -1,5 +1,5 @@
-
+*.drawio
 *.sqlite3
 .idea/
-
-*.ico
+*.jpg
+*.ico 
