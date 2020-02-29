@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 import sqlite3 as sql
 import os
-#TODO: Do some testing, sort out possible bugs if no contacts are written, do this on master branch
 
 class MainWindow:
     def __init__(self, MainApp):  # MainApp parameter will be passed as the window for the class
