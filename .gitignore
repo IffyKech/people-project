@@ -1,6 +1,5 @@
-*.drawio
+
 *.sqlite3
-practise.py
 .idea/
-*.jpg
+
 *.ico
