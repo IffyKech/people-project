@@ -88,6 +88,9 @@ class NewRecordWindow:
         self.Frame = tk.Frame(self.Parent, bg="white")
         self.Frame.pack()
 
+        if not doesfileexist("contacts.sqlite3"):  # create the database file just in case it doesn't exist
+            createdatabase()
+
         self.NewClientText = tk.Label(self.Frame, text="Fill in details", font=("Arial 8 bold"), bg="white")
         self.NewClientText.grid(row=0, column=0)
 
@@ -142,21 +145,35 @@ class NewRecordWindow:
         self.OccupationEntry = tk.Entry(self.Frame)
         self.OccupationEntry.grid(row=8, column=1)
 
+        self.ExistingOccupations = self.getOccupations()
         self.ExistingOccupationDropDown = tk.ttk.Combobox(self.Frame, state="readonly", justify=tk.CENTER)
         self.ExistingOccupationDropDown.grid(row=9, column=1)
-        # TODO: add functionality to this
-        self.ExistingOccupationDropDown.configure(values=("Placeholder", "Placeholder", "Placeholder"))
+        self.ExistingOccupationDropDown.configure(values=(self.ExistingOccupations))
 
         self.SaveButton = tk.Button(self.Frame, text="Save/Exit", command = self.addClientToDatabase)
         self.SaveButton.grid(row=10, columnspan=2)
+
+    def getOccupations(self):
+        database = sql.connect("contacts.sqlite3")
+        databasecursor = database.cursor()
+
+        querystatement = """SELECT Occupation FROM Contacts"""
+
+        occupations = [""]
+        for row in databasecursor.execute(querystatement):
+            if row not in occupations:
+                occupations.append(row)
+
+        database.close()
+
+        return occupations
+
 
     def addClientToDatabase(self):
         self.occupation = self.ExistingOccupationDropDown.get()
         if len(self.OccupationEntry.get()) > 1:  # if they created a new occupation, take that one instead
             self.occupation = self.OccupationEntry.get()
 
-        if not doesfileexist("contacts.sqlite3"):  # create the database file just in case it doesn't exist
-            createdatabase()
         database = sql.connect("contacts.sqlite3")
         databasecursor = database.cursor()
         databasecursor.execute("""INSERT INTO Contacts(Firstname, Lastname, Location, Number, Email, FieldOfWork, Source, Occupation)
