@@ -158,7 +158,7 @@ class NewRecordWindow:
 
         querystatement = """SELECT Occupation FROM Contacts"""
 
-        occupations = [""]
+        occupations = []
         for row in databasecursor.execute(querystatement):
             if row not in occupations:
                 occupations.append(row)
@@ -173,6 +173,7 @@ class NewRecordWindow:
         if len(self.OccupationEntry.get()) > 1:  # if they created a new occupation, take that one instead
             self.occupation = self.OccupationEntry.get()
 
+        self.occupation = self.occupation.replace(" ","_")
         database = sql.connect("contacts.sqlite3")
         databasecursor = database.cursor()
         databasecursor.execute("""INSERT INTO Contacts(Firstname, Lastname, Location, Number, Email, FieldOfWork, Source, Occupation)
