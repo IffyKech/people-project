@@ -3,13 +3,13 @@ from tkinter import messagebox, ttk
 import sqlite3 as sql
 import os
 
+
 class MainWindow:
     def __init__(self, MainApp):  # MainApp parameter will be passed as the window for the class
         self.MainApp = MainApp  # Create an instance attribute of the parameter
         self.MainApp.title("Peepl Book")
-        #self.MainApp.geometry("800x500")
 
-        self.TopFrame = tk.Frame(self.MainApp, bg = "white")
+        self.TopFrame = tk.Frame(self.MainApp, bg="white")
         self.TopFrame.pack(side=tk.TOP)
 
         self.BottomFrame = tk.Frame(self.MainApp, bg="white")
@@ -20,26 +20,32 @@ class MainWindow:
 
         self.yscrollbar = tk.Scrollbar(self.TopFrame)
         self.yscrollbar.pack(side=tk.RIGHT,
-                                  fill=tk.Y)  # Scrollbar attached to right side of listbox, scrolls down the listbox (vertical)
+                             fill=tk.Y)  # Scrollbar attached to right side of listbox, scrolls down the listbox (
+        # vertical)
 
         self.xscrollbar = tk.Scrollbar(self.TopFrame, orient=tk.HORIZONTAL)
         self.xscrollbar.pack(side=tk.BOTTOM, fill=tk.X)
 
         self.ClientListbox = tk.Listbox(self.TopFrame, width=45, height=5,
-                                        yscrollcommand=self.yscrollbar.set, xscrollcommand=self.xscrollbar.set)  # sets the scrollbars made above to this listbox
+                                        yscrollcommand=self.yscrollbar.set,
+                                        xscrollcommand=self.xscrollbar.set)  # sets the scrollbars made above to this
+        # listbox
         self.ClientListbox.pack()
 
         self.yscrollbar.config(
-            command=self.ClientListbox.yview)  # yview will scroll down the listbox (vertical) when the scroll slider or button is manipulated
+            command=self.ClientListbox.yview)  # yview will scroll down the listbox (vertical) when the scroll slider
+        # or button is manipulated
         self.xscrollbar.config(command=self.ClientListbox.xview)
 
         self.NewRecordButton = tk.Button(self.BottomFrame, text="New Contact", width=12, command=self.load_new_record)
         self.NewRecordButton.grid(row=0, padx=50, pady=8)
 
-        self.ViewContactsButton = tk.Button(self.BottomFrame, text="View Contacts", width=12, command=self.load_view_record)
+        self.ViewContactsButton = tk.Button(self.BottomFrame, text="View Contacts", width=12,
+                                            command=self.load_view_record)
         self.ViewContactsButton.grid(column=2, row=0, padx=50, pady=8)
 
-        self.DeleteRecordButton = tk.Button(self.BottomFrame, text="Delete Contact", width=12, command=self.load_delete_record)
+        self.DeleteRecordButton = tk.Button(self.BottomFrame, text="Delete Contact", width=12,
+                                            command=self.load_delete_record)
         self.DeleteRecordButton.grid(row=1, padx=50, pady=8)
 
         self.LogoutButton = tk.Button(self.BottomFrame, text="Logout", width=12, command=self.close_main_window)
@@ -78,6 +84,7 @@ class MainWindow:
     def close_main_window(self):
         self.MainApp.destroy()
 
+
 class NewRecordWindow:
     def __init__(self, Parent):  # Parent parameter will be passed as the window for the class
         self.Parent = Parent  # Create an instance attribute of the parameter
@@ -90,7 +97,7 @@ class NewRecordWindow:
         if not doesfileexist("contacts.sqlite3"):  # create the database file just in case it doesn't exist
             createdatabase()
 
-        self.NewClientText = tk.Label(self.Frame, text="Fill in details", font=("Arial 8 bold"), bg="white")
+        self.NewClientText = tk.Label(self.Frame, text="Fill in details", font="Arial 8 bold", bg="white")
         self.NewClientText.grid(row=0, column=0)
 
         self.FirstnameText = tk.Label(self.Frame, text="Firstname: ", bg="white")
@@ -100,7 +107,7 @@ class NewRecordWindow:
         self.LastnameText.grid(pady=12, row=2, column=0)
 
         self.LocationText = tk.Label(self.Frame, text="Location: ", bg="white")
-        self.LocationText.grid(pady=12, row=3, column = 0)
+        self.LocationText.grid(pady=12, row=3, column=0)
 
         self.NumberText = tk.Label(self.Frame, text="Phone: ", bg="white")
         self.NumberText.grid(pady=12, row=4, column=0)
@@ -133,7 +140,7 @@ class NewRecordWindow:
         self.NumberEntry.grid(row=4, column=1)
 
         self.EmailEntry = tk.Entry(self.Frame)
-        self.EmailEntry.grid(row=5, column = 1)
+        self.EmailEntry.grid(row=5, column=1)
 
         self.FieldOfWorkEntry = tk.Entry(self.Frame)
         self.FieldOfWorkEntry.grid(row=6, column=1)
@@ -149,7 +156,7 @@ class NewRecordWindow:
         self.ExistingOccupationDropDown.grid(row=9, column=1)
         self.ExistingOccupationDropDown.configure(values=(self.ExistingOccupations))
 
-        self.SaveButton = tk.Button(self.Frame, text="Save/Exit", command = self.addClientToDatabase)
+        self.SaveButton = tk.Button(self.Frame, text="Save/Exit", command=self.addClientToDatabase)
         self.SaveButton.grid(row=10, columnspan=2)
 
     def getOccupations(self):
@@ -167,24 +174,25 @@ class NewRecordWindow:
 
         return occupations
 
-
     def addClientToDatabase(self):
         self.occupation = self.ExistingOccupationDropDown.get()
         if len(self.OccupationEntry.get()) > 1:  # if they created a new occupation, take that one instead
             self.occupation = self.OccupationEntry.get()
 
-        self.occupation = self.occupation.replace(" ","_")
+        self.occupation = self.occupation.replace(" ", "_")
         database = sql.connect("contacts.sqlite3")
         databasecursor = database.cursor()
         databasecursor.execute("""INSERT INTO Contacts(Firstname, Lastname, Location, Number, Email, FieldOfWork, Source, Occupation)
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?)""", (self.FirstnameEntry.get(), self.LastnameEntry.get(), self.LocationEntry.get(),
-                                            self.NumberEntry.get(), self.EmailEntry.get(), self.FieldOfWorkEntry.get(),
-                                            self.SourceEntry.get(), self.occupation))
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?)""",
+                               (self.FirstnameEntry.get(), self.LastnameEntry.get(), self.LocationEntry.get(),
+                                self.NumberEntry.get(), self.EmailEntry.get(), self.FieldOfWorkEntry.get(),
+                                self.SourceEntry.get(), self.occupation))
         database.commit()
         database.close()
 
         messagebox.showinfo(title="Record Created", message="Record added to database")
         self.Parent.withdraw()
+
 
 class DeleteRecordWindow:
     def __init__(self, Parent):
@@ -218,15 +226,17 @@ class DeleteRecordWindow:
         if recordtodelete == "":
             messagebox.showinfo(title="Error", message="Please select a record to delete")
         else:
-            if messagebox.askyesno(title="Confirm Deletion", message="Are you sure you want to delete %s?" % (recordtodelete)):
+            if messagebox.askyesno(title="Confirm Deletion",
+                                   message="Are you sure you want to delete %s?" % (recordtodelete)):
                 database = sql.connect("contacts.sqlite3")
                 databasecursor = database.cursor()
                 databasecursor.execute("""DELETE FROM Contacts WHERE Firstname = ?""", (recordtodelete,))
                 database.commit()
                 database.close()
 
-                messagebox.showinfo(title="Deleted Record", message="%s deleted from database" % (recordtodelete))
+                messagebox.showinfo(title="Deleted Record", message="%s deleted from database" % recordtodelete)
                 self.parent.destroy()
+
 
 class ViewRecordWindow:
     def __init__(self, Parent):
@@ -240,7 +250,7 @@ class ViewRecordWindow:
         self.sortingframe.pack(side=tk.TOP, fill=tk.X)
 
         self.sortbytext = tk.Label(self.sortingframe, text="Sort By: ", bg="white")
-        self.sortbytext.grid(row=0, column = 1)
+        self.sortbytext.grid(row=0, column=1)
 
         # get the occupations which will be added to the combobox
         self.searchfilter = ""
@@ -251,7 +261,8 @@ class ViewRecordWindow:
         self.sortingcombobox.configure(values=(self.occupations))
         self.sortingcombobox.grid(row=0, column=2)
 
-        self.sortbutton = tk.Button(self.sortingframe, text="Sort", width=7, height=0, font=('Arial', 8), command=self.filter_tree_window)
+        self.sortbutton = tk.Button(self.sortingframe, text="Sort", width=7, height=0, font=('Arial', 8),
+                                    command=self.filter_tree_window)
         self.sortbutton.grid(row=0, column=3, padx=10)
 
         self.create_tree_window(self.Frame)
@@ -262,7 +273,8 @@ class ViewRecordWindow:
 
         # creating the columns(fields) for records
         self.tree = ttk.Treeview(self.treeframe)
-        self.tree["columns"] = ("Source", "Firstname", "Lastname", "FieldOfWork", "Occupation", "Location", "Telephone", "Email")
+        self.tree["columns"] = (
+        "Source", "Firstname", "Lastname", "FieldOfWork", "Occupation", "Location", "Telephone", "Email")
         self.tree["show"] = "headings"  # hides the extra first column that was appearing
         self.tree.column("Source", anchor=tk.CENTER, width=110)  # first param is the column to edit
         self.tree.column("Firstname", anchor=tk.CENTER, width=110)
@@ -294,18 +306,20 @@ class ViewRecordWindow:
 
         self.tree.pack()
 
-    def get_records_occupation(self, searchfilter): # returns the list of records as a whole and also occupations
+    def get_records_occupation(self, searchfilter):  # returns the list of records as a whole and also occupations
         database = sql.connect("contacts.sqlite3")
         databasecursor = database.cursor()
         if searchfilter == "":
-            records = [row for row in databasecursor.execute('SELECT Source, Firstname, Lastname, FieldOfWork, Occupation,'
-                                                             'Location, Number, Email '
-                                                             'FROM Contacts')]
+            records = [row for row in
+                       databasecursor.execute('SELECT Source, Firstname, Lastname, FieldOfWork, Occupation,'
+                                              'Location, Number, Email '
+                                              'FROM Contacts')]
         else:
-            records = [row for row in databasecursor.execute('SELECT Source, Firstname, Lastname, FieldOfWork, Occupation,'
-                                                             'Location, Number, Email '
-                                                             'FROM Contacts '
-                                                             'WHERE Occupation = ?', (searchfilter,))]
+            records = [row for row in
+                       databasecursor.execute('SELECT Source, Firstname, Lastname, FieldOfWork, Occupation,'
+                                              'Location, Number, Email '
+                                              'FROM Contacts '
+                                              'WHERE Occupation = ?', (searchfilter,))]
         database.close()
 
         occupations = []
@@ -322,7 +336,7 @@ class ViewRecordWindow:
         else:
             self.get_records_occupation(self.searchfilter)
             filterwindow = tk.Toplevel(self.parent)
-            filterwindow.title("%ss" % (self.searchfilter))
+            filterwindow.title("%ss" % self.searchfilter)
             self.create_tree_window(filterwindow)
 
 
@@ -336,11 +350,13 @@ def createdatabase():
     database.commit()
     database.close()
 
+
 def doesfileexist(filetofind):
     for file in os.listdir():
         if filetofind == file:
             return True
     return False
+
 
 def main():
     if not doesfileexist("contacts.sqlite3"):
@@ -349,10 +365,6 @@ def main():
     MainWindow(main_window_app)
     main_window_app.mainloop()
 
+
 if __name__ == "__main__":
     main()
-
-
-
-
-
