@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 
 
 app = Flask(__name__)
@@ -9,10 +9,10 @@ def hello_world():
     return "Hello World!"
 
 
-@app.route("/callback")
+@app.route("/callback", methods=["GET"])
 def callback():
-    pass
-
+    url = request.args["code"]
+    return url
 
 if __name__ == "__main__":
     app.run()
