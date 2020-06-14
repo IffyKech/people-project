@@ -4,6 +4,7 @@ from src.components import deletewindow
 from src.components import newwindow
 from src.components import viewwindow
 from src.people_project import doesfileexist
+import requests
 
 
 # TODO: add login button
@@ -85,4 +86,5 @@ class MainWindow:
         self.viewrecordwindow = viewwindow.ViewRecordWindow(self.viewrecordapp)
 
     def close_main_window(self):
+        shutdown_request = requests.post("http://127.0.0.1:5000/shutdown", data={"null" : "null"})
         self.MainApp.destroy()

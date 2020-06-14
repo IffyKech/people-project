@@ -33,17 +33,14 @@ def request_auth_code():
                     "%20r_emailaddress".format(secrets.client_id, redirect_uri), 1)
 
 
-def linkedIn_login():
-    request_auth_code()
-    server.app.run()
-
 def main():
 
     if not doesfileexist("contacts.sqlite3"):
         createdatabase()
     main_window_app = tk.Tk()
     mainwindow.MainWindow(main_window_app)
-    main_window_app.mainloop()
+    #main_window_app.mainloop()
+    server.app.run()
 
 
 if __name__ == "__main__":
