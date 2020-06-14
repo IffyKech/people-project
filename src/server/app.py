@@ -14,7 +14,7 @@ def shutdown():
     if func is None:
         raise RuntimeError('Not running with the Werkzeug Server')
     func()
-    
+
 
 @app.route("/")
 def hello_world():
@@ -42,6 +42,7 @@ def callback():
         if auth_state != "97b2ff2e09":
             return "<html><head></head><body><h1>401 Unauthorized</h1></body></html>"
 
+        # if the authorization request is authentic
         else:
             redirect_uri = "http://127.0.0.1:5000/callback"
             body = {"grant_type": "authorization_code",
