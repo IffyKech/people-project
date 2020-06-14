@@ -2,9 +2,8 @@ import tkinter as tk
 from src.components import mainwindow
 import sqlite3 as sql
 import os
-from flask import request
 import webbrowser
-from src.secrets import client_id
+from src import secrets
 from src.server import app as server
 
 
@@ -26,16 +25,19 @@ def doesfileexist(filetofind):
     return False
 
 
-#TODO: GET ACCESS TOKEN IN FLASK SERVER, THEN DO SOME ERROR HANDLING IN FLASK SERVER FOR WHEN AUTHORIZATION IS DENIED
+# TODO: GET ACCESS TOKEN IN FLASK SERVER, THEN DO SOME ERROR HANDLING IN FLASK SERVER FOR WHEN AUTHORIZATION IS DENIED
 def request_auth_code():
+    redirect_uri = "http://127.0.0.1:5000/callback"
     webbrowser.open("https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={}"
-                    "&redirect_uri=http://127.0.0.1:5000/callback&state=97b2ff2e09&scope=r_liteprofile"
-                    "%20r_emailaddress".format(client_id), 1)
+                    "&redirect_uri={}&state=97b2ff2e09&scope=r_liteprofile"
+                    "%20r_emailaddress".format(secrets.client_id, redirect_uri), 1)
 
 
-def main():
+def linkedIn_login():
     request_auth_code()
     server.app.run()
+
+def main():
 
     if not doesfileexist("contacts.sqlite3"):
         createdatabase()

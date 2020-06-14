@@ -6,6 +6,7 @@ from src.components import viewwindow
 from src.people_project import doesfileexist
 
 
+# TODO: add login button
 class MainWindow:
     def __init__(self, MainApp):  # MainApp parameter will be passed as the window for the class
         self.MainApp = MainApp  # Create an instance attribute of the parameter
