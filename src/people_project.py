@@ -3,8 +3,9 @@ import sqlite3 as sql
 from tkinter import messagebox, ttk
 import os
 import webbrowser
+from src.server import app
 
-# import requests
+import requests
 # import time
 
 
@@ -383,17 +384,26 @@ def request_auth_code():
                     "%20r_emailaddress".format(client_id, redirect_uri), 1)
 
 
-def linkedinLogin():
-    """
-    Open the authentication page, then start the web server. Waits for the user to authenticate, then processes the
-    authentication in the webserver. Once complete, the server is shutdown.
+# def linkedinLogin():
+#     """
+#     Open the authentication page, then start the web server. Waits for the user to authenticate, then processes the
+#     authentication in the webserver. Once complete, the server is shutdown and tk window is run.
+#
+#     :return:
+#     """
+#     request_auth_code()
+#     app.app.run()
+#     # wait for authentication
+#     page_response = ""
+#     while len(page_response) < 1:
 
-    :return:
-    """
+
 
 
 
 def main():
+    request_auth_code()
+    app.app.run()
     main_window = tk.Tk()
     MainWindow(main_window)
     main_window.mainloop()

@@ -8,7 +8,7 @@ token = ""
 token_duration = 0
 
 
-# shutdown the server when the main application is closed
+# shutdown the server when the authentication is processed
 def shutdown():
     func = request.environ.get('werkzeug.server.shutdown')
     if func is None:
@@ -67,7 +67,7 @@ def callback():
                     token_response = response.json()
                     token = token_response["access_token"]
                     token_duration = token_response["expires_in"]
-                    return "<html><head></head><body><h1>Login Successful</h1></body></html>"
+                    return "<html><head></head><body><h1>Login Successful</h1></body></html>", shutdown()
 
             # if a token has already been received
             else:
