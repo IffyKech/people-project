@@ -2,7 +2,6 @@ import tkinter as tk
 import sqlite3 as sql
 from tkinter import messagebox, ttk
 import os
-#import src.secrets as secrets
 import webbrowser
 
 # import requests
@@ -369,11 +368,29 @@ def createdatabase():
     database.close()
 
 
-#def request_auth_code():
-    #redirect_uri = "http://127.0.0.1:5000/callback"
-    #webbrowser.open("https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={}"
-                    #"&redirect_uri={}&state=97b2ff2e09&scope=r_liteprofile"
-                    #"%20r_emailaddress".format(secrets.client_id, redirect_uri), 1)
+def read_secrets():
+    with open("secrets.txt", 'r') as f:
+        client_id = f.readline().strip("\n")
+        client_secret = f.readline()
+        return client_id, client_secret
+
+
+def request_auth_code():
+    client_id, client_secret = read_secrets()
+    redirect_uri = "http://127.0.0.1:5000/callback"
+    webbrowser.open("https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={}"
+                    "&redirect_uri={}&state=97b2ff2e09&scope=r_liteprofile"
+                    "%20r_emailaddress".format(client_id, redirect_uri), 1)
+
+
+def linkedinLogin():
+    """
+    Open the authentication page, then start the web server. Waits for the user to authenticate, then processes the
+    authentication in the webserver. Once complete, the server is shutdown.
+
+    :return:
+    """
+
 
 
 def main():
@@ -385,3 +402,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# TODO: put the secrets details into a text file, import server to run

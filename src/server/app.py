@@ -82,3 +82,6 @@ def shutdown_server():
 
 if __name__ == "__main__":
     app.run()
+
+
+# TODO: change line 51/52 to get secrets read from file
