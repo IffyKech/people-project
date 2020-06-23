@@ -3,20 +3,15 @@ import sqlite3 as sql
 from tkinter import messagebox, ttk
 import os
 import webbrowser
-try:
-    from src.server import app
+from src.server import app
 
-except Exception as ex:
-    print(ex)
-    import sys
-    print(sys.path)
-    input()
+
 
 import requests
 # import time
 
 
-# TODO: add login button
+# TODO: CREATE MORE MODULES (interface, funcs e.t.c) TO CLEAN UP CODE
 class MainWindow:
     def __init__(self, MainApp):  # MainApp parameter will be passed as the window for the class
         self.MainApp = MainApp  # Create an instance attribute of the parameter
@@ -425,5 +420,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-# TODO: put the secrets details into a text file, import server to run
