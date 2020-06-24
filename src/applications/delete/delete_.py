@@ -4,8 +4,8 @@ from tkinter import messagebox, ttk
 
 
 class DeleteRecordWindow:
-    def __init__(self, Parent):
-        self.parent = Parent
+    def __init__(self, parent):
+        self.parent = parent
         self.parent.geometry("240x69")
         self.parent.title("Delete Record")
 

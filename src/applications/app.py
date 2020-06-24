@@ -1,8 +1,16 @@
 import tkinter as tk
 import sqlite3 as sql
-from src.interfaces.delete import delete_ as delete
-from src.interfaces.new import new_ as new
-from src.interfaces.view import view_ as view
+try:
+    from src.applications.delete import delete_ as delete
+    from src.applications.new import new_ as new
+    from src.applications.view import view_ as view
+
+except Exception as err:
+    print(err)
+    import sys
+    for path in sys.path:
+        print(path)
+    input()
 
 
 class MainWindow:
@@ -82,6 +90,9 @@ class MainWindow:
         self.viewrecordapp = tk.Toplevel(self.main_app)
         self.viewrecordwindow = view.ViewRecordWindow(self.viewrecordapp)
 
+    def close_main_window(self):
+        self.main_app.destroy()
+
 
 def doesfileexist(filetofind):
     import os
@@ -103,9 +114,14 @@ def createdatabase():
 
 
 def main():
-    main_window = tk.Tk()
-    MainWindow(main_window)
-    main_window.mainloop()
+    try:
+        main_window = tk.Tk()
+        MainWindow(main_window)
+        main_window.mainloop()
+
+    except Exception as err:
+        print(err)
+        input()
 
 
 if __name__ == "__main__":

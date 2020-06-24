@@ -4,6 +4,7 @@ from tkinter import messagebox, ttk
 import os
 import webbrowser
 from src.server import app
+from src.applications import app
 
 
 
@@ -67,16 +68,17 @@ def request_auth_code():
 
 
 def main():
-    try:
-        request_auth_code()
-        app.app.run()
-        main_window = tk.Tk()
-        MainWindow(main_window)
-        main_window.mainloop()
-
-    except Exception as err:
-        print(err)
-        input()
+    print("HI")
+    # try:
+    #     request_auth_code()
+    #     app.app.run()
+    #     main_window = tk.Tk()
+    #     MainWindow(main_window)
+    #     main_window.mainloop()
+    #
+    # except Exception as err:
+    #     print(err)
+    #     input()
 
 
 

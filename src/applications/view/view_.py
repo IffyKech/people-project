@@ -2,9 +2,10 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3 as sql
 
+
 class ViewRecordWindow:
-    def __init__(self, Parent):
-        self.parent = Parent
+    def __init__(self, parent):
+        self.parent = parent
         self.parent.title("Records")
 
         self.Frame = tk.Frame(self.parent)
@@ -102,3 +103,11 @@ class ViewRecordWindow:
             filterwindow = tk.Toplevel(self.parent)
             filterwindow.title("%ss" % self.searchfilter)
             self.create_tree_window(filterwindow)
+
+
+def main():
+    print("Yeet")
+
+
+if __name__ =="__main__":
+    main()

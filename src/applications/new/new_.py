@@ -1,6 +1,7 @@
 import tkinter as tk
 import sqlite3 as sql
-from tkinter import messagebox
+from tkinter import messagebox, ttk
+
 
 class NewRecordWindow:
     def __init__(self, Parent):  # Parent parameter will be passed as the window for the class
