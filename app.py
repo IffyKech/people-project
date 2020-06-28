@@ -130,7 +130,7 @@ def init():
 
         config.read("config.ini")
 
-        # if the config root path is not the same path as the current directory
+        # if the application's directory has been moved and the path is no longer the same as the config path
         if config["PATHS"]["root_path"] != os.getcwd():
             rewrite_config_paths()
 
