@@ -2,6 +2,7 @@ import sqlite3 as sql
 import os
 import webbrowser
 import configparser
+import sys
 
 # import time
 
@@ -122,6 +123,22 @@ def rewrite_config_paths():
         config.write(cf)
 
 
+def validate_paths():
+    """
+    Checks if the application's directory has been moved and the path is no longer the same. If so, rewrites the config
+    paths to match the path of the current directory
+
+    :return: boolean - True if the directory has not been moved, False if the directory has been moved
+    """
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+
+    if config["PATHS"]["root_path"] == os.getcwd():
+        return True
+
+    return False
+
+
 def init():
     # if a config file doesn't exist
     if not doesfileexist("config.ini"):
@@ -129,18 +146,16 @@ def init():
 
     #if the config file does exist
     else:
-        config = configparser.ConfigParser()
-
-        config.read("config.ini")
-
-        # if the application's directory has been moved and the path is no longer the same as the config path
-        if config["PATHS"]["root_path"] != os.getcwd():
+        # check if the config paths are valid
+        if not validate_paths():
             rewrite_config_paths()
 
 
-
 def main():
+    for path in sys.path:
+        print(path)
     init()
+    input()
     # try:
     #     request_auth_code()
     #     app.app.run()
