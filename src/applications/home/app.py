@@ -1,16 +1,8 @@
 import tkinter as tk
 import sqlite3 as sql
-try:
-    from src.applications.delete import delete_ as delete
-    from src.applications.new import new_ as new
-    from src.applications.view import view_ as view
-
-except Exception as err:
-    print(err)
-    import sys
-    for path in sys.path:
-        print(path)
-    input()
+from src.applications.delete import delete_ as delete
+from src.applications.new import new_ as new
+from src.applications.view import view_ as view
 
 
 class MainWindow:

@@ -1,14 +1,8 @@
-import tkinter as tk
 import sqlite3 as sql
-from tkinter import messagebox, ttk
 import os
 import webbrowser
-from src.server import app
-from src.applications import app
+import configparser
 
-
-
-import requests
 # import time
 
 
@@ -63,6 +57,26 @@ def request_auth_code():
 #     page_response = ""
 #     while len(page_response) < 1:
 
+
+# def get_path(path_to_get):
+#     """
+#     Get the path of a directory indicated by argument. Reads the JSON file of paths and returns the value(path) of the
+#     key(path_to_get).
+#
+#     :param path_to_get: string - key of the JSON object pointing to the path of the key
+#     :return: string - path of the directory
+#     """
+
+
+def write_config():
+    config = configparser.ConfigParser()
+
+    root_dir = os.getcwd()
+
+
+def init():
+    if not doesfileexist("config.ini"):
+        write_config()
 
 
 
