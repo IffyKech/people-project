@@ -93,6 +93,32 @@ def write_config():
     with open("config.ini", 'w') as cf:
         config.write(cf)
 
+
+def rewrite_config_paths():
+    """
+    Rewrite the PATHS values in the config file. This is done incase the application's directory is moved.
+
+    :return:
+    """
+    config = configparser.ConfigParser()
+
+    # read the config file
+    config.read("config.ini")
+
+    root_path = os.getcwd()
+    src_path = root_path + "\src"
+    applications_path = src_path + r'\applications'
+
+    # set/change the current paths
+    config.set("PATHS", "root_path", root_path)
+    config.set("PATHS", "src_path", src_path)
+    config.set("PATHS", "applications_path", applications_path)
+
+    # rewrite the paths
+    with open("config.ini", 'w') as cf:
+        config.write(cf)
+
+
 def init():
     # if a config file doesn't exist
     if not doesfileexist("config.ini"):
@@ -105,7 +131,8 @@ def init():
         config.read("config.ini")
 
         # if the config root path is not the same path as the current directory
-        
+        if config["PATHS"]["root_path"] != os.getcwd():
+            rewrite_config_paths()
 
 
 
