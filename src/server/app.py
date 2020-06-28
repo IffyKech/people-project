@@ -1,11 +1,21 @@
 from flask import Flask, request
 import requests
-from src import secrets
+import configparser
 
 app = Flask(__name__)
 
 token = ""
 token_duration = 0
+
+
+def read_secrets():
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+
+    client_id = config["SECRETS"]["client_id"]
+    client_secret = config["SECRETS"]["client_secret"]
+
+    return client_id, client_secret
 
 
 # shutdown the server when the authentication is processed
@@ -44,12 +54,13 @@ def callback():
 
         # if the authorization request is authentic
         else:
+            client_id, client_secret = read_secrets()
             redirect_uri = "http://127.0.0.1:5000/callback"
             body = {"grant_type": "authorization_code",
                     "code": auth_code,
                     "redirect_uri": redirect_uri,
-                    "client_id": secrets.client_id,
-                    "client_secret": secrets.client_secret
+                    "client_id": client_id,
+                    "client_secret": client_secret
                     }
             config = {"Content-Type": "application/x-www-form-urlencoded"}
 
@@ -83,5 +94,3 @@ def shutdown_server():
 if __name__ == "__main__":
     app.run()
 
-
-# TODO: change line 51/52 to get secrets read from file

@@ -30,10 +30,13 @@ def createdatabase():
 
 
 def read_secrets():
-    with open("src/secrets.txt", 'r') as f:
-        client_id = f.readline().strip("\n")
-        client_secret = f.readline()
-        return client_id, client_secret
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+
+    client_id = config["SECRETS"]["client_id"]
+    client_secret = config["SECRETS"]["client_secret"]
+
+    return client_id, client_secret
 
 
 def request_auth_code():
