@@ -62,16 +62,6 @@ def request_auth_code():
 #     while len(page_response) < 1:
 
 
-# def get_path(path_to_get):
-#     """
-#     Get the path of a directory indicated by argument. Reads the JSON file of paths and returns the value(path) of the
-#     key(path_to_get).
-#
-#     :param path_to_get: string - key of the JSON object pointing to the path of the key
-#     :return: string - path of the directory
-#     """
-
-
 def write_config():
     """
     Write the config file containing the PATHS section, including: src_path and applications_path,
@@ -123,6 +113,23 @@ def rewrite_config_paths():
         config.write(cf)
 
 
+def get_paths():
+    """
+    Get the paths in the config file
+
+    :return: array - array of paths in the config file
+    """
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+
+    paths = []
+
+    for key in config["PATHS"]:
+        paths.append(config["PATHS"][key])
+
+    return paths
+
+
 def validate_paths():
     """
     Checks if the application's directory has been moved and the path is no longer the same. If so, rewrites the config
@@ -139,6 +146,35 @@ def validate_paths():
     return False
 
 
+def validate_sys_paths(paths):
+    """
+    Check if ALL of the paths in the config file are in sys.path
+
+    :param paths: Array - string array of paths in the config file
+    :return: boolean - True if the paths are in sys.path, False if not all of the paths are in sys.path
+    """
+    paths_set = set(paths)
+    sys_set = set(sys.path)
+
+    if paths_set.issubset(sys_set):
+        return True
+
+    return False
+
+
+def update_sys_path(paths):
+    """
+    Update sys.path to contain the paths in the application's directory
+
+    :param paths: Array - string array of paths in config file
+    :return:
+    """
+    for path in paths:
+        if path not in sys.path:
+            sys.path.insert(1, path)
+
+
+
 def init():
     # if a config file doesn't exist
     if not doesfileexist("config.ini"):
@@ -150,11 +186,17 @@ def init():
         if not validate_paths():
             rewrite_config_paths()
 
+    # check if paths are in sys.path
+    paths = get_paths()
+    if not validate_sys_paths(paths):
+        update_sys_path(paths)
+
+
 
 def main():
+    init()
     for path in sys.path:
         print(path)
-    init()
     input()
     # try:
     #     request_auth_code()
