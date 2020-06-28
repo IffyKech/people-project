@@ -69,20 +69,48 @@ def request_auth_code():
 
 
 def write_config():
+    """
+    Write the config file containing the PATHS section, including: src_path and applications_path,
+    also with the SECRETS section, including: client_id, client_secret.
+
+    :return:
+    """
     config = configparser.ConfigParser()
 
-    root_dir = os.getcwd()
+    root_path = os.getcwd()
+    src_path = root_path + "\src"
 
+    # raw string (ignores the string literal: \a)
+    applications_path = src_path + r'\applications'
+
+    config["PATHS"] = {"root_path" : root_path,
+                       "src_path" : src_path,
+                       "applications_path": applications_path}
+
+    config["SECRETS"] = {"client_id": "7821200o7f56h2",
+                         "client_secret": "HOvue2xKkF97PbmJ"}
+
+    with open("config.ini", 'w') as cf:
+        config.write(cf)
 
 def init():
+    # if a config file doesn't exist
     if not doesfileexist("config.ini"):
         write_config()
 
+    #if the config file does exist
+    else:
+        config = configparser.ConfigParser()
+
+        config.read("config.ini")
+
+        # if the config root path is not the same path as the current directory
+        
 
 
 
 def main():
-    print("HI")
+    init()
     # try:
     #     request_auth_code()
     #     app.app.run()
