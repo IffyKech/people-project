@@ -4,12 +4,11 @@ import webbrowser
 import configparser
 import sys
 
+
 # import time
 
 
 # TODO: CREATE MORE MODULES (interface, funcs e.t.c) TO CLEAN UP CODE
-
-
 
 
 def doesfileexist(filetofind):
@@ -72,13 +71,13 @@ def write_config():
     config = configparser.ConfigParser()
 
     root_path = os.getcwd()
-    src_path = root_path + "\src"
+    src_path = root_path + r"\src"
 
     # raw string (ignores the string literal: \a)
     applications_path = src_path + r'\applications'
 
-    config["PATHS"] = {"root_path" : root_path,
-                       "src_path" : src_path,
+    config["PATHS"] = {"root_path": root_path,
+                       "src_path": src_path,
                        "applications_path": applications_path}
 
     config["SECRETS"] = {"client_id": "7821200o7f56h2",
@@ -100,7 +99,7 @@ def rewrite_config_paths():
     config.read("config.ini")
 
     root_path = os.getcwd()
-    src_path = root_path + "\src"
+    src_path = root_path + r"\src"
     applications_path = src_path + r'\applications'
 
     # set/change the current paths
@@ -174,13 +173,12 @@ def update_sys_path(paths):
             sys.path.insert(1, path)
 
 
-
 def init():
     # if a config file doesn't exist
     if not doesfileexist("config.ini"):
         write_config()
 
-    #if the config file does exist
+    # if the config file does exist
     else:
         # check if the config paths are valid
         if not validate_paths():
@@ -190,7 +188,6 @@ def init():
     paths = get_paths()
     if not validate_sys_paths(paths):
         update_sys_path(paths)
-
 
 
 def main():
@@ -210,7 +207,5 @@ def main():
     #     input()
 
 
-
 if __name__ == "__main__":
     main()
-
