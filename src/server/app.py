@@ -4,6 +4,7 @@ import configparser
 
 app = Flask(__name__)
 
+# access token when auth is accepted
 token = ""
 token_duration = 0
 
@@ -38,6 +39,7 @@ def callback():
 
     # if the application is rejected
     if "error" in request.args:
+        # TODO: CONNECTION CHECKPOINT
         return "<html><head></head><body><h1>401 Unauthorized</h1></body></html>"
 
     # if the application is accepted
@@ -50,6 +52,7 @@ def callback():
 
         # if a different state code was used (not the original auth request)
         if auth_state != "97b2ff2e09":
+            # TODO: CONNECTION CHECKPOINT
             return "<html><head></head><body><h1>401 Unauthorized</h1></body></html>"
 
         # if the authorization request is authentic
@@ -67,21 +70,24 @@ def callback():
             # used to check if a token hasn't been received yet
             # set to 0 when app is run, changes when a token is received,
             if token_duration == 0:
+                # TODO: CONNECTION CHECKPOINT
                 response = requests.post("https://www.linkedin.com/oauth/v2/accessToken",
                                          data=body,
                                          headers=config)
 
                 if response.status_code == 404 or response.status_code == 204:
+                    # TODO: CONNECTION CHECKPOINT
                     return response.raise_for_status()
 
                 else:
                     token_response = response.json()
                     token = token_response["access_token"]
                     token_duration = token_response["expires_in"]
+                    # TODO: CONNECTION CHECKPOINT
                     return "<html><head></head><body><h1>Login Successful</h1></body></html>", shutdown()
 
             # if a token has already been received
-            else:
+            else: # TODO: CONNECTION CHECKPOINT
                 return "<html><head></head><body><h1>Already Logged In</h1></body></html>"
 
 

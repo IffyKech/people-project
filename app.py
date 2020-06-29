@@ -3,12 +3,9 @@ import os
 import webbrowser
 import configparser
 import sys
+import src.applications.home.app as mainwindow
 
-
-# import time
-
-
-# TODO: CREATE MORE MODULES (interface, funcs e.t.c) TO CLEAN UP CODE
+# TODO: Code added to update sys.path, look into importing modules from other directories
 
 
 def doesfileexist(filetofind):
@@ -189,12 +186,15 @@ def init():
     if not validate_sys_paths(paths):
         update_sys_path(paths)
 
+    # END OF init()
+    # create the main window GUI
+    mainwindow.main()
+
 
 def main():
     init()
     for path in sys.path:
         print(path)
-    input()
     # try:
     #     request_auth_code()
     #     app.app.run()
