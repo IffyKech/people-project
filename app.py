@@ -4,8 +4,9 @@ import webbrowser
 import configparser
 import sys
 import src.applications.home.app as mainwindow
+import src.server.app as server
 
-# TODO: Code added to update sys.path, look into importing modules from other directories
+# TODO: WORK ON CODE WORKFLOW, AND MAKING REQUESTS
 
 
 def doesfileexist(filetofind):
@@ -36,12 +37,7 @@ def read_secrets():
     return client_id, client_secret
 
 
-def request_auth_code():
-    client_id, client_secret = read_secrets()
-    redirect_uri = "http://127.0.0.1:5000/callback"
-    webbrowser.open("https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={}"
-                    "&redirect_uri={}&state=97b2ff2e09&scope=r_liteprofile"
-                    "%20r_emailaddress".format(client_id, redirect_uri), 1)
+
 
 
 # def linkedinLogin():
@@ -187,24 +183,31 @@ def init():
         update_sys_path(paths)
 
     # END OF init()
-    # create the main window GUI
-    mainwindow.main()
+
+
+def request_auth_code():
+    client_id, client_secret = read_secrets()
+    redirect_uri = "http://127.0.0.1:5000/callback"
+    webbrowser.open("https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={}"
+                    "&redirect_uri={}&state=97b2ff2e09&scope=r_liteprofile"
+                    "%20r_emailaddress".format(client_id, redirect_uri), 1)
 
 
 def main():
     init()
     for path in sys.path:
         print(path)
-    # try:
-    #     request_auth_code()
-    #     app.app.run()
-    #     main_window = tk.Tk()
-    #     MainWindow(main_window)
-    #     main_window.mainloop()
-    #
-    # except Exception as err:
-    #     print(err)
-    #     input()
+    try:
+        request_auth_code()
+        server.app.run()
+        input()
+        # app.app.run()
+        # main_window = tk.Tk()
+        # MainWindow(main_window)
+        # main_window.mainloop()
+    except Exception as err:
+        print(err)
+        input()
 
 
 if __name__ == "__main__":

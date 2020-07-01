@@ -8,6 +8,9 @@ app = Flask(__name__)
 token = ""
 token_duration = 0
 
+# TODO: ADDRESS CONNECTION CHECKPOINTS WITH TRY STATEMENT FOR WHOLE FUNCTION
+# TODO: LOOK INTO WRITING ACCESS TOKEN INTO CONFIG AS WELL AS DURATION
+
 
 def read_secrets():
     config = configparser.ConfigParser()
@@ -87,7 +90,7 @@ def callback():
                     return "<html><head></head><body><h1>Login Successful</h1></body></html>", shutdown()
 
             # if a token has already been received
-            else: # TODO: CONNECTION CHECKPOINT
+            else:  # TODO: CONNECTION CHECKPOINT
                 return "<html><head></head><body><h1>Already Logged In</h1></body></html>"
 
 
@@ -99,4 +102,3 @@ def shutdown_server():
 
 if __name__ == "__main__":
     app.run()
-
