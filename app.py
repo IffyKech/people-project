@@ -8,7 +8,6 @@ import src.applications.home.app as mainwindow
 import src.server.app as server
 
 
-
 # TODO: WORK ON CODE WORKFLOW, AND MAKING REQUESTS
 
 
@@ -201,6 +200,7 @@ def main():
         request_auth_code()
         server.app.run()
 
+        """ THIS WILL NOT RUN UNTIL THE SERVER IS SHUTDOWN"""
         # if a token wasn't received (due to error)
         if server.token == "":
             messagebox.showerror("Authentication Error", "Error occurred during authentication\nPlease try again later")
