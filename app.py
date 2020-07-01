@@ -3,8 +3,11 @@ import os
 import webbrowser
 import configparser
 import sys
+from tkinter import messagebox
 import src.applications.home.app as mainwindow
 import src.server.app as server
+
+
 
 # TODO: WORK ON CODE WORKFLOW, AND MAKING REQUESTS
 
@@ -35,9 +38,6 @@ def read_secrets():
     client_secret = config["SECRETS"]["client_secret"]
 
     return client_id, client_secret
-
-
-
 
 
 # def linkedinLogin():
@@ -200,11 +200,16 @@ def main():
     try:
         request_auth_code()
         server.app.run()
-        input()
-        # app.app.run()
-        # main_window = tk.Tk()
-        # MainWindow(main_window)
-        # main_window.mainloop()
+
+        # if a token wasn't received (due to error)
+        if server.token == "":
+            messagebox.showerror("Authentication Error", "Error occurred during authentication\nPlease try again later")
+
+        # if a token was received (accepted auth)
+        else:
+            # run the application
+            mainwindow.main()
+
     except Exception as err:
         print(err)
         input()
