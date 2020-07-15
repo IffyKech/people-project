@@ -194,8 +194,8 @@ def request_auth_code():
 
 def main():
     init()
-    for path in sys.path:
-        print(path)
+    # for path in sys.path:
+    #     print(path)
     try:
         request_auth_code()
         server.app.run()
