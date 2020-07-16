@@ -55,8 +55,8 @@ def read_secrets():
 
 def write_config():
     """
-    Write the config file containing the PATHS section, including: src_path and applications_path,
-    also with the SECRETS section, including: client_id, client_secret.
+    Write the config file containing: PATHS section; including: src_path and applications_path,
+    , SECRETS section; including: client_id, client_secret, SETTINGS section; including: tutorial_window
 
     :return:
     """
@@ -68,12 +68,20 @@ def write_config():
     # raw string (ignores the string literal: \a)
     applications_path = src_path + r'\applications'
 
+
+    # WRITE PATHS SECTION
     config["PATHS"] = {"root_path": root_path,
                        "src_path": src_path,
                        "applications_path": applications_path}
 
+
+    # WRITE SECRETS SECTION
     config["SECRETS"] = {"client_id": "7821200o7f56h2",
                          "client_secret": "HOvue2xKkF97PbmJ"}
+
+
+    # WRITE SETTINGS SECTION
+    config["SETTINGS"] = {"tutorial_window": "active"}
 
     with open("config.ini", 'w') as cf:
         config.write(cf)
@@ -172,7 +180,7 @@ def init():
 
     # if the config file does exist
     else:
-        # check if the config paths are valid
+        # check if the config paths are valid (the directory has not been moved)
         if not validate_paths():
             rewrite_config_paths()
 

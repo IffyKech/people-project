@@ -3,7 +3,7 @@ import sqlite3 as sql
 from src.applications.delete import delete_ as delete
 from src.applications.new import new_ as new
 from src.applications.view import view_ as view
-
+from src.applications.home import synch
 
 class MainWindow:
     def __init__(self, main_app):  # main_app parameter will be passed as the window for the class
