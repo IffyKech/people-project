@@ -6,6 +6,7 @@ from tkinter import ttk
 class TutorialWindow:
     def __init__(self, app):
         self.app = app
+        self.app.title("Synching Tutorial")
         self.notebook_frame = tkinter.Frame(self.app, bg="white")
 
         # create an instance of the Notebook
@@ -41,18 +42,18 @@ class TutorialWindow:
 class Notebook2:
     def __init__(self, parent):
         self.parent = parent
+
         self.top_frame = tkinter.Frame(parent, bg="white")
         self.bottom_frame = tkinter.Frame(parent, bg="white")
 
         # top frame attributes
-        self.step1_lbl = tkinter.Label(self.top_frame, text="Step 1.Open Inspect Element via the keyboard "
+        self.step1_lbl = tkinter.Label(self.top_frame, text="1. Open Inspect Element via the keyboard "
                                                             "shortcut:\n'F12' or "
                                                             " 'Ctrl + Shift + I'", bg="white", font=("Arial", 14))
 
         # bottom frame attributes
-        self.step2_lbl = tkinter.Label(self.bottom_frame, text="Step 2.Locate the 'Elements' tab at the top of the "
-                                                               "sidebar "
-                                                               " window", bg="white", font=("Arial", 14))
+        self.step2_lbl = tkinter.Label(self.bottom_frame, text="2. Locate the 'Elements' tab at the top of the "
+                                                               "sidebar window", bg="white", font=("Arial", 14))
 
         self.bottom_img_frame = tkinter.Frame(self.bottom_frame, bg="white")
         self.elements_img = tkinter.PhotoImage(file=r"C:\Users\ify_0\Documents\Computing\Projects\K-Nect\src"
@@ -74,7 +75,8 @@ class NoteBook3:
         self.parent = parent
         self.frame = tkinter.Frame(parent, bg="white")
 
-        self.step3_lbl = tkinter.Label(self.frame, text="3.If not there already, scroll to the top of the window\n and "
+        self.step3_lbl = tkinter.Label(self.frame, text="1. If not there already, scroll to the top of the window\n "
+                                                        "and "
                                                         "locate the code that looks identical to\n the following "
                                                         "screenshot", bg="white", font=("Arial", 14))
         self.code_img = tkinter.PhotoImage(file=r"C:\Users\ify_0\Documents\Computing\Projects\K-Nect\src"
