@@ -35,11 +35,12 @@ class TutorialWindow:
         self.notebook.pack()
 
         # instantiate notebook apps
-        self.notebook2 = Notebook2(self.frame2)
+        self.notebook2 = NoteBook2(self.frame2)
         self.notebook3 = NoteBook3(self.frame3)
+        self.notebook4 = NoteBook4(self.frame4)
 
 
-class Notebook2:
+class NoteBook2:
     def __init__(self, parent):
         self.parent = parent
 
@@ -88,6 +89,28 @@ class NoteBook3:
         self.frame.pack(fill=tkinter.BOTH)
         self.step3_lbl.pack(pady=5)
         self.code_lbl.pack()
+
+
+class NoteBook4:
+    def __init__(self, parent):
+        self.parent = parent
+        self.frame = tkinter.Frame(parent, bg="white")
+
+        self.step4_lbl = tkinter.Label(self.frame, text="1. Use your mouse to Right Click onto the code and "
+                                                        "locate the 'Copy' section.", bg="white", font=("Arial", 14))
+        self.step5_lbl = tkinter.Label(self.frame, text="2. Inside the 'Copy' dropdown menu contains the option "
+                                                        "'Copy Element'. Click that option to copy the website text",
+                                                        bg="white", font=("Arial", 14))
+        self.element_img = tkinter.PhotoImage(file=r"C:\Users\ify_0\Documents\Computing\Projects\K-Nect\src"
+                                                   r"\applications\tutorial\assets\copy_element.png")
+        self.element_lbl = tkinter.Label(self.frame, image=self.element_img)
+        self.element_lbl.image = self.element_img
+
+        # packing
+        self.frame.pack()
+        self.step4_lbl.pack(pady=5)
+        self.step5_lbl.pack(pady=5)
+        self.element_lbl.pack()
 
 
 if __name__ == '__main__':
