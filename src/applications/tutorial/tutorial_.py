@@ -1,7 +1,21 @@
 import tkinter
 from tkinter import ttk
+import configparser
 
 disable_state = tkinter.IntVar()
+
+
+def update_config():
+    """
+    Updates the 'tutorial_window' option in the 'SETTINGS' section to 'disabled' when a user selects the checkbox
+
+    :return:
+    """
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    config.set("SETTINGS", "tutorial_window", "disabled")
+    with open(r"C:\Users\ify_0\Documents\Computing\Projects\K-Nect\config.ini", 'w') as cf:
+        config.write(cf)
 
 
 class TutorialWindow:
