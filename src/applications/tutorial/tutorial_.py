@@ -1,8 +1,10 @@
 import tkinter
 from tkinter import ttk
 import configparser
+import os
 
-disable_state = tkinter.IntVar()
+assets_path = os.getcwd() + r"\assets"
+root_path = assets_path[:50]
 
 
 def update_config():
@@ -12,17 +14,19 @@ def update_config():
     :return:
     """
     config = configparser.ConfigParser()
-    config.read("config.ini")
+    config.read(root_path + r"\config.ini")
+
     config.set("SETTINGS", "tutorial_window", "disabled")
-    with open(r"C:\Users\ify_0\Documents\Computing\Projects\K-Nect\config.ini", 'w') as cf:
+    with open(root_path + r"\config.ini", 'w') as cf:
         config.write(cf)
 
 
 class TutorialWindow:
-    def __init__(self, app, state):
+    def __init__(self, app):
         self.app = app
         self.app.title("Synching Tutorial")
-        self.checkbox_state = state
+        self.checkbox_state = tkinter.IntVar()
+        self.checkbox = tkinter.Checkbutton(self.app, text="Don't Show this again", variable=self.checkbox_state)
 
         self.notebook_frame = tkinter.Frame(self.app, bg="white")
 
@@ -50,6 +54,7 @@ class TutorialWindow:
         # packing
         self.notebook_frame.pack(fill="both", expand=1)
         self.notebook.pack()
+        self.checkbox.pack(side="top")
 
         # instantiate notebook apps
         self.notebook2 = NoteBook2(self.frame2)
@@ -61,7 +66,11 @@ class TutorialWindow:
         self.app.protocol("WM_DELETE_WINDOW", self.get_checkbox_status)
 
     def get_checkbox_status(self):
-        self.checkbox_state = disable_state.get()
+        if self.checkbox_state.get() == 1:
+            update_config()
+            self.app.withdraw()
+        else:
+            self.app.withdraw()
 
 
 class NoteBook2:
@@ -81,8 +90,7 @@ class NoteBook2:
                                                                "sidebar window", bg="white", font=("Arial", 14))
 
         self.bottom_img_frame = tkinter.Frame(self.bottom_frame, bg="white")
-        self.elements_img = tkinter.PhotoImage(file=r"C:\Users\ify_0\Documents\Computing\Projects\K-Nect\src"
-                                                    r"\applications\tutorial\assets\elements.png")
+        self.elements_img = tkinter.PhotoImage(file=assets_path + r"\elements.png")
         self.elements_lbl = tkinter.Label(self.bottom_img_frame, image=self.elements_img)  # label holding image
         self.elements_lbl.image = self.elements_img  # reference to img
 
@@ -104,8 +112,7 @@ class NoteBook3:
                                                         "and "
                                                         "locate the code that looks identical to\n the following "
                                                         "screenshot", bg="white", font=("Arial", 14))
-        self.code_img = tkinter.PhotoImage(file=r"C:\Users\ify_0\Documents\Computing\Projects\K-Nect\src"
-                                                r"\applications\tutorial\assets\code.png")
+        self.code_img = tkinter.PhotoImage(file=assets_path + r"\code.png")
         self.code_lbl = tkinter.Label(self.frame, image=self.code_img)
         self.code_lbl.image = self.code_img
 
@@ -125,8 +132,7 @@ class NoteBook4:
         self.step5_lbl = tkinter.Label(self.frame, text="2. Inside the 'Copy' dropdown menu contains the option "
                                                         "'Copy Element'. Click that option to copy the website text",
                                        bg="white", font=("Arial", 14))
-        self.element_img = tkinter.PhotoImage(file=r"C:\Users\ify_0\Documents\Computing\Projects\K-Nect\src"
-                                                   r"\applications\tutorial\assets\copy_element.png")
+        self.element_img = tkinter.PhotoImage(file=assets_path + r"\copy_element.png")
         self.element_lbl = tkinter.Label(self.frame, image=self.element_img)
         self.element_lbl.image = self.element_img
 
@@ -147,17 +153,13 @@ class NoteBook5:
                                                          "the browser and return to the application to confirm.",
                                         bg="white", font=("Arial", 14))
 
-        self.disable_checkbox = tkinter.Checkbutton(self.frame, text="Don't Show this again",
-                                                    variable=disable_state, bg="white")
-
         # packing
         self.frame.pack()
         self.step6_lbl.pack(pady=5)
         self.finish_lbl.pack(pady=50)
-        self.disable_checkbox.pack()
 
 
 if __name__ == '__main__':
     main_window = tkinter.Tk()
-    TutorialWindow(main_window, disable_state)
+    TutorialWindow(main_window)
     main_window.mainloop()
