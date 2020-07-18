@@ -1,12 +1,15 @@
 import tkinter
-from tkinter import messagebox
 from tkinter import ttk
+
+disable_state = tkinter.IntVar()
 
 
 class TutorialWindow:
-    def __init__(self, app):
+    def __init__(self, app, state):
         self.app = app
         self.app.title("Synching Tutorial")
+        self.checkbox_state = state
+
         self.notebook_frame = tkinter.Frame(self.app, bg="white")
 
         # create an instance of the Notebook
@@ -41,7 +44,10 @@ class TutorialWindow:
         self.notebook5 = NoteBook5(self.frame5)
 
         # apply protocol handler to app
-        
+        self.app.protocol("WM_DELETE_WINDOW", self.get_checkbox_status)
+
+    def get_checkbox_status(self):
+        self.checkbox_state = disable_state.get()
 
 
 class NoteBook2:
@@ -127,10 +133,8 @@ class NoteBook5:
                                                          "the browser and return to the application to confirm.",
                                         bg="white", font=("Arial", 14))
 
-        self.disable_state = tkinter.IntVar()
         self.disable_checkbox = tkinter.Checkbutton(self.frame, text="Don't Show this again",
-                                                    variable=self.disable_state, bg="white")
-
+                                                    variable=disable_state, bg="white")
 
         # packing
         self.frame.pack()
@@ -141,5 +145,5 @@ class NoteBook5:
 
 if __name__ == '__main__':
     main_window = tkinter.Tk()
-    TutorialWindow(main_window)
+    TutorialWindow(main_window, disable_state)
     main_window.mainloop()
