@@ -68,17 +68,14 @@ def write_config():
     # raw string (ignores the string literal: \a)
     applications_path = src_path + r'\applications'
 
-
     # WRITE PATHS SECTION
     config["PATHS"] = {"root_path": root_path,
                        "src_path": src_path,
                        "applications_path": applications_path}
 
-
     # WRITE SECRETS SECTION
     config["SECRETS"] = {"client_id": "7821200o7f56h2",
                          "client_secret": "HOvue2xKkF97PbmJ"}
-
 
     # WRITE SETTINGS SECTION
     config["SETTINGS"] = {"tutorial_window": "active"}
