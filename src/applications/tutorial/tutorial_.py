@@ -159,7 +159,11 @@ class NoteBook5:
         self.finish_lbl.pack(pady=50)
 
 
-if __name__ == '__main__':
+def main():
     main_window = tkinter.Tk()
     TutorialWindow(main_window)
     main_window.mainloop()
+
+
+if __name__ == '__main__':
+    main()
