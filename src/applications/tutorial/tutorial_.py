@@ -1,10 +1,17 @@
 import tkinter
 from tkinter import ttk
 import configparser
-import os
+import sys
 
-assets_path = os.getcwd() + r"\assets"
-root_path = assets_path[:50]
+
+def get_root():
+    for path in sys.path:
+        if path[len(path) - 6:] == "K-Nect":
+            return path
+
+
+root_path = get_root()
+assets_path = root_path + r"\src\applications\tutorial\assets"
 
 
 def update_config():
@@ -68,9 +75,9 @@ class TutorialWindow:
     def get_checkbox_status(self):
         if self.checkbox_state.get() == 1:
             update_config()
-            self.app.withdraw()
+            self.app.destroy()
         else:
-            self.app.withdraw()
+            self.app.destroy()
 
 
 class NoteBook2:

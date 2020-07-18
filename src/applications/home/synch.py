@@ -5,6 +5,16 @@ import configparser
 import clipboard
 from bs4 import BeautifulSoup
 from src.applications.tutorial import tutorial_ as tutorial
+import sys
+
+
+def get_root():
+    for path in sys.path:
+        if path[len(path) - 6:] == "K-Nect":
+            return path
+
+
+root_path = get_root()
 
 
 def launch():
@@ -17,18 +27,17 @@ def launch():
     :return:
     """
 
-    webbrowser.open("https://www.linkedin.com/mynetwork/invite-connect/connections/")
-
     # check if the tutorial window is disabled
     config = configparser.ConfigParser()
-    config.read("config.ini")
+    config.read(root_path + r"\config.ini")
 
     # if the user has not chosen to hide the tutorial window
     if config["SETTINGS"]["tutorial_window"] == "active":
-        pass
+        tutorial.main()
+        print("Hello World")
 
     else:
-        pass
+        webbrowser.open("https://www.linkedin.com/mynetwork/invite-connect/connections/")
 
 
 if __name__ == '__main__':
