@@ -34,10 +34,8 @@ def launch():
     # if the user has not chosen to hide the tutorial window
     if config["SETTINGS"]["tutorial_window"] == "active":
         tutorial.main()
-        print("Hello World")
 
-    else:
-        webbrowser.open("https://www.linkedin.com/mynetwork/invite-connect/connections/")
+    webbrowser.open("https://www.linkedin.com/mynetwork/invite-connect/connections/")
 
 
 if __name__ == '__main__':
