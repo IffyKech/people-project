@@ -38,6 +38,10 @@ class TutorialWindow:
         self.notebook2 = NoteBook2(self.frame2)
         self.notebook3 = NoteBook3(self.frame3)
         self.notebook4 = NoteBook4(self.frame4)
+        self.notebook5 = NoteBook5(self.frame5)
+
+        # apply protocol handler to app
+        
 
 
 class NoteBook2:
@@ -100,7 +104,7 @@ class NoteBook4:
                                                         "locate the 'Copy' section.", bg="white", font=("Arial", 14))
         self.step5_lbl = tkinter.Label(self.frame, text="2. Inside the 'Copy' dropdown menu contains the option "
                                                         "'Copy Element'. Click that option to copy the website text",
-                                                        bg="white", font=("Arial", 14))
+                                       bg="white", font=("Arial", 14))
         self.element_img = tkinter.PhotoImage(file=r"C:\Users\ify_0\Documents\Computing\Projects\K-Nect\src"
                                                    r"\applications\tutorial\assets\copy_element.png")
         self.element_lbl = tkinter.Label(self.frame, image=self.element_img)
@@ -111,6 +115,28 @@ class NoteBook4:
         self.step4_lbl.pack(pady=5)
         self.step5_lbl.pack(pady=5)
         self.element_lbl.pack()
+
+
+class NoteBook5:
+    def __init__(self, parent):
+        self.parent = parent
+        self.frame = tkinter.Frame(self.parent, bg="white")
+
+        self.step6_lbl = tkinter.Label(self.frame, text="That's it!", bg="white", font=("Arial", 16))
+        self.finish_lbl = tkinter.Label(self.frame, text="Once you have selected 'Copy Element', feel free to close "
+                                                         "the browser and return to the application to confirm.",
+                                        bg="white", font=("Arial", 14))
+
+        self.disable_state = tkinter.IntVar()
+        self.disable_checkbox = tkinter.Checkbutton(self.frame, text="Don't Show this again",
+                                                    variable=self.disable_state, bg="white")
+
+
+        # packing
+        self.frame.pack()
+        self.step6_lbl.pack(pady=5)
+        self.finish_lbl.pack(pady=50)
+        self.disable_checkbox.pack()
 
 
 if __name__ == '__main__':
