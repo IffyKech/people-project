@@ -56,6 +56,7 @@ def callback():
             return "<html><head></head><body><h1>401 Unauthorized</h1></body></html>"
 
         # if the authorization request is authentic
+        # request access
         else:
             client_id, client_secret = read_secrets()
             redirect_uri = "http://127.0.0.1:5000/callback"

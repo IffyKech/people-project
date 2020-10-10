@@ -39,6 +39,13 @@ def read_secrets():
     return client_id, client_secret
 
 
+def request_auth_code():
+    client_id, client_secret = read_secrets()
+    redirect_uri = "http://127.0.0.1:5000/callback"
+    webbrowser.open("https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={}"
+                    "&redirect_uri={}&state=97b2ff2e09&scope=r_liteprofile"
+                    "%20r_emailaddress".format(client_id, redirect_uri), 1)
+
 # def linkedinLogin():
 #     """
 #     Open the authentication page, then start the web server. Waits for the user to authenticate, then processes the
@@ -187,14 +194,6 @@ def init():
         update_sys_path(paths)
 
     # END OF init()
-
-
-def request_auth_code():
-    client_id, client_secret = read_secrets()
-    redirect_uri = "http://127.0.0.1:5000/callback"
-    webbrowser.open("https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={}"
-                    "&redirect_uri={}&state=97b2ff2e09&scope=r_liteprofile"
-                    "%20r_emailaddress".format(client_id, redirect_uri), 1)
 
 
 def main():
