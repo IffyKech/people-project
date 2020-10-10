@@ -8,7 +8,7 @@ from src.applications.home import synch
 class MainWindow:
     def __init__(self, main_app):  # main_app parameter will be passed as the window for the class
         self.main_app = main_app  # Create an instance attribute of the parameter
-        self.main_app.title("Peepl Book")
+        self.main_app.title("K-Nect")
 
         self.TopFrame = tk.Frame(self.main_app, bg="white")
         self.TopFrame.pack(side=tk.TOP)
