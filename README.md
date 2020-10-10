@@ -4,6 +4,20 @@ A python tkinter application which allows users to create, manage and view conta
 
 The application uses the LinkedIn API with OAuth 2.0 to login a user to the application. The user's connections can be pulled off their profile and added to the contact list to keep track of.
 
-<h1>Todo:</h1>
+
+Quick Start
+-----------
+
+```bash
+pip install -r requirements.txt # install pip modules
+```
+
+```bash
+python app.py # run main program
+```
+<br>
+
+Todo:
+---
 <li>Request partner program from LinkedIn</li>
 <li>Make requests to gather JSON formatted connections</li>
